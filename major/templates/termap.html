@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load static %}
+
+{% if menu %}
+
+{% else %}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网站地图</title>
+<style>
+body
+{
+	text-align:left;
+	background-color:#FFF;
+	color:#000;
+	font-family:微软雅黑,Tahoma,Arial;
+	padding:0px;
+	margin:0px;
+	font-weight:300;
+}
+a:link
+{
+	color:#1D4A80;
+	text-decoration:none;
+}
+a:visited
+{
+	color:#1D4A80;
+	text-decoration:none;
+}
+.tm_item
+{
+	text-align:center;
+	width:150px;
+	height:30px;
+	display:inline-block;
+	border:2px solid #fff;
+	border-width:0px 0px 2px 0px;
+}
+.termap_titles
+{
+	border:1px dotted #1D4A80;
+	width:100%;
+	height:60px;
+	border-width:0px 0px 1px 0px;
+	color:#1D4A80;
+	font-size:30px;
+	padding:0px 10px;
+}
+.link_array
+{
+	width:900px;
+	margin:30px auto;
+}
+</style>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+</head>
+{{ userb }}
+{% endif %}
+
+
+<body>
+<div class='link_array'>
+	<p class='termap_titles'>报告</p>
+    <div>
+        <div class='tm_item'><a class='tm_link' href='/arreport' target='_blank'>应收款预收款报告</a></div>
+    </div>
+</div>
+<div class='link_array'>
+	<p class='termap_titles'>工具</p>
+    <div>
+        <div class='tm_item'><a class='tm_link' href='/color' target='_blank'>调色板</a></div>
+    </div>
+</div>
+<div class='link_array'>
+	<p class='termap_titles'>填表</p>
+    <div>
+        <div class='tm_item'><a class='tm_link' href='/officeuse' target='_blank'>办公用品行政领用</a></div>
+    </div>
+</div>
+<div class='link_array'>
+	<p class='termap_titles'>申请&审批</p>
+    <div>
+        <div class='tm_item'><a class='tm_link' href='/process?list=sf' target='_blank'>我递交过的申请</a></div>
+        <div class='tm_item'><a class='tm_link' href='/process?list=await' target='_blank'>等待我审批的申请</a></div>
+        <div class='tm_item'><a class='tm_link' href='/process?list=review' title='所有我递交的，我需要审批或我已经审批的记录' target='_blank'>与我有关记录</a></div>
+        <div class='tm_item'><a class='tm_link' href='/transparent' target='_blank'>审核查阅</a></div>
+        <div class='tm_item'><a class='tm_link' href='/download' target='_blank'>申请表单数据下载</a></div>
+        <div class='tm_item'><a class='tm_link' href='/download?loadback=yes' target='_blank'>数据回传</a></div>
+    </div>
+</div>
+<div class='link_array'>
+	<p class='termap_titles'>设置&管理</p>
+    <div>
+        <div class='tm_item'><a class='tm_link' href='/userinfo' target='_blank'>用户设置</a></div>
+        <div class='tm_item'><a class='tm_link' href='/group' target='_blank'>群组管理</a></div>
+        <div class='tm_item'><a class='tm_link' href='/userlist' target='_blank'>居民清单</a></div>
+        <div class='tm_item'><a class='tm_link' href='/help' target='_blank' title='查看帮助，了解如何使用TM2系统'>帮助文档</a></div>
+    </div>
+</div>
+</body>
+</html>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".tm_item").hover(function(){$(this).css("font-weight",400)})
+	$(".tm_item").hover(function(){$(this).css("border-color","#1D4A80")})
+	$(".tm_item").mouseleave(function(){$(this).css("font-weight",300)})
+	$(".tm_item").mouseleave(function(){$(this).css("border-color","#fff")})
+})
+</script>

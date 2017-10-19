@@ -1,0 +1,60 @@
+
+<style type="text/css" >
+.tagtile_tile
+{
+	display:inline-block;
+	background-color:#09C;
+	color:#fff;
+	padding:5px;
+	margin:3px;
+	border-radius:3px;	
+}
+.tag_frame
+{
+	border:3px dashed #09C;
+	border-radius:5px;
+	width:300px;
+	margin:10px 0px;
+	min-height:200px;
+}
+</style>
+<div class='tag_frame'>
+	{% for item in taglist %}
+    		<div id='tag_{{tagfield}}_{{ item.id }}' class="tagtile_tile"> 
+            {{ item.tagname }}
+        	<span id='cross_{{tagfield}}_{{ item.id }}' class='tagtile_cross' title='删除角色' style="display:inline-block;color:#fff;">x</span></div>
+            <script type="text/javascript"> $("#cross_{{tagfield}}_{{ item.id }}").data("jsons","{{item.jpack|safe}}");</script>
+    {% endfor %}
+</div>
+<div id='msg_reply'> </div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".tagtile_cross").click(function(){
+		var rt
+		var cross_data=$(this).data()
+		var id = $(this).attr("id")
+		$.ajax({
+			url:"/authportal/pullgroup",
+			type:"GET",
+			async:false,
+			data:cross_data,
+			success:function(data){
+
+				rt=data
+				if(rt==1)
+				  {
+					  $("#"+id).parent(".tagtile_tile").remove()
+				  }
+				},
+			error:function(XMLHttpRequest, textStatus, errorThrown)
+			    {
+				rt=""
+				rt+="1:"+XMLHttpRequest.status;
+				rt+="2:"+XMLHttpRequest.readyState;
+ 				rt+="3:"+textStatus;
+				}
+			})
+			//$("#msg_reply").text(rt)
+		})
+	})
+</script>

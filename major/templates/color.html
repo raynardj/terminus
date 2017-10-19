@@ -1,0 +1,261 @@
+<script type='text/javascript' src='/static/js/jquery.js'></script>
+<style type="text/css">
+	body
+	{
+		background-color:#2f2f2f;
+		color:#FFF;
+		text-align: center;
+		font-family: Arial;
+		padding:0px;
+		margin:0px;
+	}
+	.color_pixel
+	{
+		height:6px;
+		width:6px;
+	}
+	.color_selector
+	{
+		height:50px;
+		width:7px;
+	}
+	#color_selector
+	{
+		margin:20px 30PX;
+	}
+	#color_dial
+	{
+		border:5px solid #FFF;
+		margin:10px auto;
+	}
+	#down_left,#down_right
+	{
+		vertical-align: top;
+		display:inline-block;
+	}
+	#down_left
+	{
+		width:810px;
+	}
+	#down_right
+	{
+		margin:10px auto;
+		width:300px;
+	}
+	#color_sample
+	{
+		height:200px;
+		width:300px;
+		border:10px solid #FFF;
+		box-shadow: 0px 0px 10px #000 inset;
+	}
+	#rgb_hex
+	{
+		padding:4px;
+		font-size:32px;
+		color:#FFF;
+		width:260px;
+		border:3px solid #FFF;
+		background-color:hsla(0,100%,0%,0.8);
+		box-shadow: 0px 0px 10px rgb(255,255,255) inset;
+		margin:auto;
+	}
+	#rgb_hex_r
+	{
+		width:50px;
+		height:50px;
+		border-radius:5px;
+		margin:135px 10px 10px auto;
+		box-shadow: 0px 0px 5px #000 inset;
+	}
+	#r_index,#g_index,#b_index
+	{
+		padding:4px;
+		font-size: 28px;
+		background-color:hsla(0,100%,0%,0.8);
+		/*border:3px solid #FFF;*/
+		border-radius:5px;
+		color:#FFF;
+		display: inline-block;
+		width:70px;
+		margin:10px 3px;
+		font-weight: 700;
+	}
+	#r_index
+	{
+		box-shadow: 0px 0px 15px rgb(255,0,0) inset;
+	}
+	#g_index
+	{
+		box-shadow: 0px 0px 15px rgb(0,255,0) inset;
+	}
+	#b_index
+	{
+		box-shadow: 0px 0px 15px rgb(0,0,255) inset;
+	}
+	#color_selector_pointer
+	{
+		width:0px;
+		height:0px;
+		position:absolute;
+		top:110px;
+		border-left:10px solid transparent;
+		border-right:10px solid transparent;
+		border-bottom:20px solid #FFF;
+	}
+	.sample_history
+	{
+		width:40px;
+		height:30px;
+		border:3px solid #FFF;
+		display: inline-block;
+		margin:5px 3px;
+	}
+</style>
+<title>
+Color Dial
+</title>
+
+<body>
+	<h1>Color Dial</h1>
+	<table id='color_selector' cellspacing='0'>
+	<tr id='color_selector_tr'>
+	</tr>
+	</table>
+	<div id='color_selector_pointer'></div>
+	<div id='down_left'>
+		<table id='color_dial' cellspacing='0'>
+
+		</table>
+	</div>
+	<div id='down_right'>
+		<div id='color_sample'>
+			<div id='rgb_hex_r'></div>
+		</div>
+		<div id='samph_1' class='sample_history'></div>
+		<div id='samph_2' class='sample_history'></div>
+		<div id='samph_3' class='sample_history'></div>
+		<div id='samph_4' class='sample_history'></div>
+		<div id='samph_5' class='sample_history'></div>
+			<div id='r_index' title='R'>R</div>
+			<div id='g_index' title='G'>G</div>
+			<div id='b_index' title='B'>B</div>
+			<div id='rgb_hex'>RGB-#hex</div>
+	</div>
+</body>
+<script type='text/javascript'>
+hex_char=['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+hex_obj={}
+var ct=0
+for(var i=0;i<hex_char.length;i++)
+{
+	for(var j=0;j<hex_char.length;j++)
+	{
+		hex_obj[String(ct)]=hex_char[i]+hex_char[j]
+		ct++
+	}
+}
+
+function parse_rgb(rgbstr)
+{
+	$("#color_sample").css("background-color",rgbstr)
+	var sta=rgbstr.indexOf("(")+1
+	var end=rgbstr.indexOf(")")
+	var rgbstr_s=rgbstr.substring(sta,end)
+	var rgbstr_a=rgbstr_s.split(", ")
+	$("#r_index").text(rgbstr_a[0])
+	$("#g_index").text(rgbstr_a[1])
+	$("#b_index").text(rgbstr_a[2])
+	var hex_s=rgb2hex(rgbstr_a)
+	var hex_r=rgb_rev(rgbstr_a)
+	$("#rgb_hex").html(hex_s)
+	//$("#rgb_hex").css("border","3px solid "+hex_s)
+	$("#rgb_hex_r").css("color",hex_s)
+	$("#rgb_hex_r").css("background-color",hex_r)
+}
+function load_h(h)
+{
+	$(".color_pixel").each(function(){
+		$(this).css("background-color","hsl("+h+","+$(this).data("s")+","+$(this).data("l")+")")
+	})
+}
+function rgb2hex(rgb_array)
+{
+	var hex_s="#"+hex_obj[rgb_array[0]]+hex_obj[rgb_array[1]]+hex_obj[rgb_array[2]]
+	return hex_s
+}
+function rgb_rev(rgb_array)
+{
+	var hex_s_r="#"+hex_obj[String(255-parseInt(rgb_array[0]))]+hex_obj[String(255-parseInt(rgb_array[1]))]+hex_obj[String(255-parseInt(rgb_array[2]))]
+	return hex_s_r
+}
+function change_pointer(clientX)
+{
+	$("#color_selector_pointer").css("left",String(clientX)+"px")
+}
+function lay_selector()
+{
+	var tds=[]
+	var tr=document.getElementById("color_selector_tr")
+	for(var i=0;i<360;i++)
+	{
+		tds[i]=document.createElement("td")
+		tds[i].className="color_selector"
+		$(tds[i]).css("background-color","hsl("+i+",100%,50%)")
+		.attr("data-h",i)
+		$(tr).append(tds[i])
+	}
+}
+function hist_move()
+{
+$("#samph_5").css("background-color",$("#samph_4").css("background-color"))
+$("#samph_4").css("background-color",$("#samph_3").css("background-color"))
+$("#samph_3").css("background-color",$("#samph_2").css("background-color"))
+$("#samph_2").css("background-color",$("#samph_1").css("background-color"))
+$("#samph_1").css("background-color",$("#color_sample").css("background-color"))
+
+}
+function lay_pixel()
+{
+	var trs=[]
+	var tds=[]
+	var tb=document.getElementById("color_dial")
+	for(var r=0;r<101;r++)
+	{
+		trs[r]=document.createElement("tr")
+		tds[r]=[]
+		for (var c=0;c<101;c++)
+		{
+			tds[r][c]=document.createElement("td")
+			tds[r][c].className="color_pixel"
+			$(tds[r][c]).attr("data-s",String(r)+"%")
+			.attr("data-l",String(c)+"%")
+			$(trs[r]).append(tds[r][c])
+		}
+		$(tb).append(trs[r])
+	}
+}
+$(document).ready(function(){
+	lay_selector()
+	lay_pixel()
+	load_h("1")
+	$(".color_selector").click(function(e){
+		var h=$(this).data("h")
+		console.log("Hue:"+h)
+		load_h(h)
+		//console.log(e)
+		change_pointer(parseInt(e.clientX)-10)
+	})
+	$(".color_pixel").click(function(){
+		var rtcolor=$(this).css("background-color")
+		hist_move()
+		parse_rgb(rtcolor)
+	})
+	$(".sample_history").click(function(){
+		var rtcolor=$(this).css("background-color")
+		hist_move()
+		parse_rgb(rtcolor)
+	})
+})
+
+</script>

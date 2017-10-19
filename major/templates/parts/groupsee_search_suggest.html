@@ -1,0 +1,41 @@
+{% for staff in staffs %}
+<div class='groupsee_ss_row' data-mail='{{staff.mail}}' data-groupname='{{staff.groupname}}' data-boundgroup='{{staff.boundgroup}}' data-addtype='{{staff.addtype}}' title='{{staff.mail}}'>
+{% if staff.addtype == "boundgroup" %}
+绑定团队：
+{% endif %}
+{{staff.cnname}} <span class='grey_out'>{{staff.enname}}</span>
+</div>
+{% endfor %}
+<script type='text/javascript'>
+$(document).ready(function(){
+$(".groupsee_ss_row").hover(function(){$(this).css("background-color","#ddd")})
+$(".groupsee_ss_row").mouseleave(function(){$(this).css("background-color","#fff")})
+$(".groupsee_ss_row").click(function(){
+	var aji={}
+	aji=$(this).data()
+	aji.task="group_add"
+	$(".group_search_suggest").html("")
+	$.ajax({
+		url:"search_suggest",
+		data:aji,
+		async:true,
+		method:"GET",
+		success:function(data)
+		{
+			$(".group_add_input").val("")
+			if(data!="already")
+			{
+				if (aji.addtype=="boundgroup")
+				{
+					aji.addtype="member";
+				}
+			$("#groupsee_table_"+aji.addtype).append(data)
+			}
+			assign_remove()
+			assign_refresh()
+		}
+	})
+})
+})
+
+</script>

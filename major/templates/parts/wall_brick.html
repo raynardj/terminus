@@ -1,0 +1,21 @@
+<div class='wall_brick' id='brick_{{id}}'>
+	<div class='wall_title'>
+		<div class='titlecn'><a href='/?mail={{from}}' target='_blank' class='wall_name_a'>
+		{{fromcn}}</a></div>
+		<div class='titlecn'>
+		{% if replyto %}
+		@<a class='wall_name_a' href='/?mail={{replyto}}' target='_blank'>
+		{{ replytocn }}
+		</a>
+		{% endif %}
+		</div>		
+		<div class='wall_time'>{{time}}</div>
+		{% if remove_brick == True %}
+		<span class='brick_remove_btn' title='删除该留言' data-brickid='{{id}}'>删除</span>
+		{% endif %}
+		<span class='brick_reply_btn' title='回复' data-brickid='{{id}}' data-wallowner='{{wallowner}}' data-from='{{from}}' data-fromcn='{{fromcn}}'>回复</span>
+	</div>
+	<div class='wall_write'>
+	{{writes}}
+	</div>
+</div>

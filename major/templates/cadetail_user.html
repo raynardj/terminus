@@ -1,0 +1,108 @@
+<table id='ca_detail_table_{{mid}}' data-mid='{{mid}}'>
+{% if detail.log.error %}
+	<tr>
+		<th>验证报错</th><td style="color:red">{% for e in detail.log.error %}<div>{{e}}</div>{% endfor %}</td>
+	</tr>
+{% endif %}
+	<tr>
+		<th>MongoID</th><td style="color:#777">{{mid}}</td>
+	</tr><tr>
+		<th>Admin A/C</th><td class='alter' data-fpath='admin'>{{detail.admin}}</td>
+	</tr><tr>
+		<th>Website ID</th><td class='alter' data-fpath='userid'>{{detail.userid}}</td>
+	</tr><tr>
+		<th>登录名</th><td class='alter' data-fpath='登录名'>{{detail.登录名}}</td>
+	</tr><th>绑定成本中心</th><td class='alter' data-fpath='绑定成本中心'>{{detail.绑定成本中心}}</td>
+	</tr><th>审批人</th><td class='alter' data-fpath='审批人'>{{detail.审批人}}</td>
+	</tr><tr>
+		<th>密码</th><td class='alter' data-fpath='密码'>{{detail.密码}}</td>
+	</tr><tr>
+		<th>姓名</th><td class='alter' data-fpath='姓名'>{{detail.姓名}}</td>
+	</tr><tr>
+		<th>性别</th><td class='alter' data-fpath='性别'>{{detail.性别}}</td>
+	</tr><tr>
+		<th>联系电话1</th><td class='alter' data-fpath='联系电话1'>{{detail.联系电话1}}</td>
+	</tr>
+
+<tr><th>分机1</th><td class='alter' data-fpath='分机1'>{{detail.分机1}}</td></tr>
+<tr><th>联系电话2</th><td class='alter' data-fpath='联系电话2'>{{detail.联系电话2}}</td></tr>
+<tr><th>分机2</th><td class='alter' data-fpath='分机2'>{{detail.分机2}}</td></tr>
+<tr><th>传真</th><td class='alter' data-fpath='传真'>{{detail.传真}}</td></tr>
+<tr><th>分机3</th><td class='alter' data-fpath='分机3'>{{detail.分机3}}</td></tr>
+<tr><th>手机</th><td class='alter' data-fpath='手机'>{{detail.手机}}</td></tr>
+<tr><th>Email</th><td class='alter' data-fpath='Email'>{{detail.Email}}</td></tr>
+<tr><th>办公耗材</th><td class='alter' data-fpath='办公耗材'>{{detail.办公耗材}}</td></tr>
+<tr><th>电脑及配件</th><td class='alter' data-fpath='电脑及配件'>{{detail.电脑及配件}}</td></tr>
+<tr><th>通讯设备/手机</th><td class='alter' data-fpath='通讯设备'>{{detail.通讯设备}}</td></tr>
+<tr><th>食品饮料</th><td class='alter' data-fpath='食品饮料'>{{detail.食品饮料}}</td></tr>
+<tr><th>劳防用品</th><td class='alter' data-fpath='劳防用品'>{{detail.劳防用品}}</td></tr>
+<tr><th>卡券及商务礼品</th><td class='alter' data-fpath=''>{{detail.卡券及商务礼品}}</td></tr>
+<tr><th>办公用纸</th><td class='alter' data-fpath='办公用纸'>{{detail.办公用纸}}</td></tr>
+<tr><th>办公文具</th><td class='alter' data-fpath='办公文具'>{{detail.办公文具}}</td></tr>
+<tr><th>办公设备</th><td class='alter' data-fpath='办公设备'>{{detail.办公设备}}</td></tr>
+<tr><th>数码设备</th><td class='alter' data-fpath='数码设备'>{{detail.数码设备}}</td></tr>
+<tr><th>办公家电</th><td class='alter' data-fpath='办公家电'>{{detail.办公家电}}</td></tr>
+<tr><th>生活用品</th><td class='alter' data-fpath='生活用品'>{{detail.生活用品}}</td></tr>
+<tr><th>办公家具</th><td class='alter' data-fpath='办公家具'>{{detail.办公家具}}</td></tr>
+<tr><th>审批方式</th><td class='alter' data-fpath='审批方式'>{{detail.审批方式}}</td></tr>
+<tr><th>审批人</th><td class='alter' data-fpath='审批人'>{{detail.审批人}}</td></tr>
+<tr><th>审批金额</th><td class='alter' data-fpath='审批金额'>{{detail.审批金额}}</td></tr>
+<tr><th>单笔订单采购限额</th><td class='alter' data-fpath='单笔订单采购限额'>{{detail.单笔订单采购限额}}</td></tr>
+<tr><th>财政年起始月份</th><td class='alter' data-fpath='财政年起始月份'>{{detail.财政年起始月份}}</td></tr>
+<tr><th>月采购限额有无</th><td class='alter' data-fpath='月采购限额有无'>{{detail.月采购限额有无}}</td></tr>
+<tr><th>月采购限额</th><td class='alter' data-fpath='月采购限额'>{{detail.月采购限额}}</td></tr>
+<tr><th>月采购余额跨月累计</th><td class='alter' data-fpath='月采购余额跨月累计'>{{detail.月采购余额跨月累计}}</td></tr>
+<tr><th>季度采购额度</th><td class='alter' data-fpath='季度采购额度'>{{detail.季度采购额度}}</td></tr>
+<tr><th>Q1</th><td class='alter' data-fpath='Q1'>{{detail.Q1}}</td></tr>
+<tr><th>Q2</th><td class='alter' data-fpath='Q2'>{{detail.Q2}}</td></tr>
+<tr><th>Q3</th><td class='alter' data-fpath='Q3'>{{detail.Q3}}</td></tr>
+<tr><th>Q4</th><td class='alter' data-fpath='Q4'>{{detail.Q4}}</td></tr>
+<tr><th>季采购余额跨月累计</th><td class='alter' data-fpath='季采购余额跨月累计'>{{detail.季采购余额跨月累计}}</td></tr>
+<tr><th>年采购限额有无</th><td class='alter' data-fpath='年采购限额有无'>{{detail.年采购限额有无}}</td></tr>
+<tr><th>年采购限额</th><td class='alter' data-fpath='年采购限额'>{{detail.年采购限额}}</td></tr>
+<tr><th>查看报表</th><td class='alter' data-fpath='查看报表'>{{detail.查看报表}}</td></tr>
+<tr><th>显示热销商品</th><td class='alter' data-fpath='显示热销商品'>{{detail.显示热销商品}}</td></tr>
+<tr><th>显示广告banner</th><td class='alter' data-fpath='显示广告banner'>{{detail.显示广告banner}}</td></tr>
+	<tr>
+		<th>Upload Time</th><td  data-fpath='log.uptime'>{{detail.log.uptime}}</td>
+	</tr><tr>
+		<th>Upload User</th><td data-fpath='log.upsu'>{{detail.log.upsu}}</td>
+	</tr><tr>
+		<th>User IP</th><td data-fpath='log.upip'>{{detail.log.upip}}</td>
+	</tr>
+</table>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#ca_detail_table_{{mid}} .alter').dblclick(function(){
+			var orv=$(this).text()
+			var ipt=document.createElement("input")
+			var btn=document.createElement("button")
+			ipt.value=orv
+			ipt.id="{{mid}}"+$(this).data("fpath")
+			$(this).html(ipt)
+			$(this).append(btn)
+			$(btn).html("OK")
+			$(btn).click({"mid":"{{mid}}","fpath":$(this).data("fpath")},function(e){
+				var chval=$("#"+e.data.mid+e.data.fpath).val();
+				var dt={};
+				dt.md="changeval";
+				dt.mid=e.data.mid;
+				dt.fpath=e.data.fpath;
+				dt.chval=chval;
+				console.log(dt)
+				$.ajax({
+					url:"cssadvjs",
+					data:dt,
+					async:false,
+					method:"GET",
+					success:function(){
+						console.log("#detail_"+dt.mid)
+						$("#detail_"+dt.mid).click()
+					}
+				})
+			})
+		})
+	})
+</script>

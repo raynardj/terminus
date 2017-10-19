@@ -1,0 +1,21 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css" >
+@import url('{%static "css/major_reg.css"%}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户注册</title>
+</head>
+
+<body>
+<div id='top_bar'><div>
+<h1>员工注册</h1>
+<div>
+<form>
+{% include "form_loop.html" %}
+<input id='sub_btn' type='submit' value='开始体验'></input>
+</form>
+<div>
+</body>
+</html>

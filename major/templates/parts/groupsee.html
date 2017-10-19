@@ -1,0 +1,244 @@
+<style type="text/css">
+#groupsee_frame
+{
+	padding:10px;
+	font-family:微软雅黑,Tahoma,Arial;
+}
+h2
+{
+	color:#4682B4;
+	font-weight:normal;
+}
+h4
+{
+	color:#4682B4;
+	font-weight:normal;
+}
+h4 a:link,h4 a:visited
+{
+	text-decoration: none;
+	color:#4682B4;
+}
+.groupsee_table
+{
+	margin:auto;
+	border:1px solid #4682B4;
+	background-color: #eee;
+}
+.groupsee_1st_row
+{
+	text-align: center;
+	background-color:#4682B4;
+	color:#fff;
+}
+.groupsee_name
+{
+	padding:2px 20px;
+}
+.groupsee_hr
+{
+	margin:20px auto;
+	border:1px dotted #4682B4;
+	border-width:1px 0px 0px 0px;
+	width:400px;
+}
+.groupsee_action_td
+{
+	padding:2px 20px;
+	color:#4682B4;
+}
+.group_add_frame
+{
+	color:#4682B4;
+	margin:10px auto;
+	text-align:center;
+	width:300px;
+}
+.group_add_input
+{
+	font-family:微软雅黑,Tahoma,Arial;
+	border:0px solid #fff;
+	border-radius:5px;
+	box-shadow: 0px 0px 3px #4682B4 inset;
+	padding:5px 10px;
+	width:200px;
+}
+.group_highlight
+{
+	font-weight: 800;
+	color:#DC143C;
+}
+.group_search_suggest
+{
+	margin:auto;
+	position:absolute;
+	/*border:1px solid #4682B4;*/
+	background-color: #fff;
+	width:300px;
+}
+.refresh_group_list
+{
+	color:#4682B4;
+}
+</style>
+<div id='groupsee_frame'>
+<h2>团队名称:{{ cnname }}</h2>
+<h4><a href='/groupinfo?groupname={{ groupname }}'>团队名称设置</a></h4>
+<hr class='groupsee_hr'>
+	{% if leader %}
+	<div  id='group members'>
+	团队管理员
+	{% if isleader %}
+	<div class='group_add_frame'>添加<span class='group_highlight'>
+	管理员
+	</span>: 
+		<input type='text' id='add_leader_input' class='group_add_input' data-addtype='leader' data-groupname='{{groupname}}' placeholder="输入姓名或邮箱搜索">
+		</input>
+		<div id='add_leader_ss' class='group_search_suggest'></div>
+		</div>
+	{% endif %}
+		<table id='groupsee_table_leader' class='groupsee_table' cellspacing="0">
+		<tr class='groupsee_1st_row'><td>名字</td><td>邮箱</td>{% if isleader %}<td>操作</td>{% endif %}</tr>
+		{% for l in leader %}
+		<tr>
+		<td class='groupsee_name'>
+		{{l.cnname}}
+		</td>
+		<td>
+		{{l.mail}}
+		</td>
+		{% if isleader %}
+		<td class='groupsee_action_td group_remove_click' data-groupname='{{groupname}}' data-addtype='leader' data-mail='{{l.mail}}'>
+		移出
+		</td>
+		{% endif %}
+		</tr>
+		{% endfor %}
+		</table>
+	</div>
+	{% else %}
+	<br>
+	团队没有管理员
+	<br>
+	{% endif %}
+	
+<hr class='groupsee_hr'>
+	<div  id='group members'>
+	团队成员
+	{% if isleader %}
+	<div class='group_add_frame'>
+	直接绑定其他团队的名单，一键导入
+	<br>添加成员: <input type='text' id='add_member_input' data-addtype='member' data-groupname='{{groupname}}' class='group_add_input' placeholder="输入姓名/团队名/邮箱搜索"></input>
+
+	<div id='add_member_ss' class='group_search_suggest'></div>
+	</div>
+	{% endif %}
+		<table id='groupsee_table_member' class='groupsee_table' cellspacing="0">
+		<tr class='groupsee_1st_row'><td>名字</td><td>邮箱</td>{% if isleader %}<td>操作</td>{% endif %}</tr>
+		{% if member %}
+		{% for m in member %}
+		<tr>
+		<td class='groupsee_name'>
+		{{m.cnname}}
+		</td>
+		<td>
+		{% if m.mail %}
+		{{m.mail}}
+		{% elif m.groupname %}
+		<div class='refresh_group_list' data-groupname='{{groupname}}' data-boundgroup='{{m.groupname}}' data-md='refreshbg'>导入团队成员</div>
+		{% endif %}
+		</td>
+		{% if isleader %}
+		<td class='groupsee_action_td group_remove_click' data-groupname='{{groupname}}' data-addtype='{% if m.mail %}member{% elif m.groupname %}boundgroup{% else %}{% endif %}' 
+		data-mail='{% if m.mail %}{{m.mail}}{% elif m.groupname %}{{m.groupname}}{% endif %}'>移出</td>
+		{% endif %}
+		</tr>
+		{% endfor %}
+		{% else %}
+			<br>
+	团队没有成员
+	<br>
+		{% endif %}
+		</table>
+	</div>
+	
+
+	
+
+</div>
+<script>
+function assign_remove()
+{
+	$(".group_remove_click").click(function(){
+			var aji={}
+			aji=$(this).data()
+			aji.task="group_remove"
+			var ele=this
+			$.ajax({
+				url:"/search_suggest",
+				data:aji,
+				async:true,
+				method:"GET",
+				success:function(data){
+					if(data=="yes")
+					{
+						$(ele).parent("tr").remove()
+					}
+				}
+			})
+		})
+}
+function assign_refresh()
+{
+	$(".refresh_group_list").click(function(){
+			var aj_input={}
+			aj_input=$(this).data()
+			var clickobj=this
+			$.ajax({
+				url:"/group_aj",
+				data:aj_input,
+				async:true,
+				method:"GET",
+				success:function(data)
+				{
+					if(data=="already")
+					{}
+					else
+					{
+					$(clickobj).html(data)
+					}
+				}
+			})
+		})
+}
+$(document).ready(
+	function(){
+		assign_remove()
+		assign_refresh()
+		$(".group_add_input").keyup(function(){
+			var aj_input={}
+			aj_input.addtype=$(this).data("addtype")
+			aj_input.kw=$(this).val()
+			aj_input.task='group'
+			aj_input.groupname=$(this).data("groupname")
+			if(aj_input.kw.length<1)
+			{
+				$("#add_"+aj_input.addtype+"_ss").html("")
+			}
+			else
+			{
+				$.ajax({
+					url:'/search_suggest',
+					data:aj_input,
+					async:true,
+					method:"GET",
+					success:function(data){
+					$("#add_"+aj_input.addtype+"_ss").html(data)
+					}
+				})
+			}
+		})
+		
+	}
+	)
+</script>

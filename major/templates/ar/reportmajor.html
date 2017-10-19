@@ -1,0 +1,145 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	body
+	{
+		margin:0px;
+		padding: 0px;
+		background-color: #2A2A2C;
+		color:#FFF;
+		text-align:center;
+		font-family:微软雅黑,Tahoma,Arial;
+		font-weight:200;
+	}
+	h2
+	{
+		font-size:40px;
+		font-weight:200;
+	}
+	h3
+	{
+		font-size:30px;
+		font-weight:200;
+	}
+	#monthly_3dbar
+	{
+		height:600px;
+		width:1200px;
+		margin:20px auto;
+		border-radius:2px;
+		box-shadow: 0px 0px 15px #000 inset;
+	}
+	#month_span,#year3d,#month3d
+	{
+		width:50px;
+		background-color: #BBB;
+		color:#2A2A2C;
+		font-weight:200;
+		font-size:16px;
+		border:0px solid #BBB;
+		border-radius:3px;
+		padding:3px 10px;
+	}
+	#see3d
+	{
+		font-size:16px;
+		font-weight:200;
+		background-color: #BBB;
+		color:#2A2A2C;
+		border:0px solid #BBB;
+		border-radius:3px;
+		padding:3px 10px;
+	}
+	.monthly_p_link a:link,.monthly_p_link a:visited
+	{
+		color:#FFF;
+		text-decoration: none;
+	}
+	#backmsg
+	{
+		color:red;
+		font-size: 20px;
+	}
+	.monthly_p_link
+	{
+		margin:30px 5px;
+		width:300px;
+		font-size:20px;
+		vertical-align: top;
+		display: inline-block;
+		box-shadow:0px -5px 6px -6px inset;
+	}
+</style>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src='{% static "js/echarts.js" %}'></script>
+<script type="text/javascript" src='{% static "js/echarts-gl.js" %}'></script>
+	<title>AR Report -- Terminus II</title>
+</head>
+<body>
+{{userb}}
+<div id='backmsg'>{{backmsg}}</div>
+<h2>AR Report</h2>
+<div>
+	<div>
+		<h3> Monthly Report </h3>
+		Month Span:<input id='month_span' type="number" name="month_span" max=12 min=5 value=12>
+		<button id='see3d'>3 Dimensional Graph</button><span id="see3d_prompt"></span>
+		<div id='monthly_3dbar'></div>
+		<h2>AR Monthly Report</h2>
+		<div id='monthly_calender_list'>
+			{% for p in periods %}
+			<div class='monthly_p_link'>
+			<a href="/arreport?md=armonth&year={{p.year}}&month={{p.month}}">
+			{{p.year}} P{{p.month}}AR Report
+			</a>
+			</div>
+			{% endfor %}
+		</div>
+		<h2>Unapplied Cash Monthly Report</h2>
+		<div id='monthly_calender_list_uc'>
+			{% for p in periods %}
+			<div class='monthly_p_link'>
+			<a href="/arreport?md=ucmonth&year={{p.year}}&month={{p.month}}">
+			{{p.year}} P{{p.month}} Cash Report
+			</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" id="see3d_script"></script>
+<script type="text/javascript">
+$(document).ready(function page_ready(){
+	see3d_dom=echarts.init(document.getElementById('monthly_3dbar'));
+	$("#see3d").click(function see3d_click(){
+		var dt={}
+		dt.month_span=$("#month_span").val()
+		// dt.year3d=$("#year3d").val()
+		// dt.month3d=$("#month3d").val()
+		if(dt.month_span=="")
+		{
+			$("#see3d_prompt").html("请输入完整参数")
+		}
+		else
+		{
+			dt.md="see3d"
+			$.ajax({
+				url:"/arreport_aj",
+				data:dt,
+				async:true,
+				type:"GET",
+				success:function see3d_success(data)
+				{
+					$("#see3d_script").html(data)
+				}
+			})
+		}
+	})
+	$("#see3d").click()
+})
+</script>
+
+</html>

@@ -1,0 +1,131 @@
+<h3 style="margin:20px 50px;font-weight:normal">办公用品行政领用申请单</h3>
+<h4 style="margin:10px 50px;color:#aaa">单号: {{processid}} </h4>
+<table style='margin:auto;' class='officeuse_detail_table'>
+	<tr>
+		<th>
+			申请人
+		<th/>
+		<td>
+			{{ cnname }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请人邮箱
+		<th/>
+		<td>
+			{{ mail }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请日期
+		<th/>
+		<td>
+			{{ date }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请时间
+		<th/>
+		<td>
+			{{ time }}
+		</td>
+	</tr>
+	{% if pic_src %}
+	<tr>
+		<th>
+			图片
+		<th/>
+		<td>
+			<img width='150' src='{{pic_src}}'/>
+		</td>
+	</tr>
+	{% endif %}
+	{% if brandname %}
+	<tr>
+		<th>
+			品牌
+		<th/>
+		<td>
+			{{ brandname }}
+		</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<th>
+			物品名称
+		<th/>
+		<td>
+			{{ itemname }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			官网编号
+		<th/>
+		<td>
+			{{ pro_id }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			数量
+		<th/>
+		<td>
+			{{ qtt }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			单价(RMB)
+		<th/>
+		<td>
+			{{ price }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			 总价(RMB)
+		<th/>
+		<td>
+			{{ totalprice }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			 发货状态
+		<th/>
+		<td>
+		{% if dn %}
+		{% if dn == "仓库缺货" %}
+		{{ dn }}
+		{% else %}
+		运单编号:{{ dn }}
+		{% endif %}
+		{% else %}
+		--
+		{% endif %}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			 再次购买
+		<th/>
+		<td>
+			<a href='/process?processid={{processid}}&buyagain=yes' title='Edit This Application'>
+			<div class="buy_againbtn">再次购买</div>
+			</a>
+		</td>
+	</tr>
+	<tr class='process_log_tr'>
+	<td colspan="3" style="text-align:center;">
+	{% if loaded_log %}
+	{% for ic,log in loaded_log.iteritems %}
+		{{ log }}
+	{% endfor %}
+	{% endif %}
+	</td>
+	</tr>
+</table>

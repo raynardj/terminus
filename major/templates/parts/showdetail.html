@@ -1,0 +1,63 @@
+<h2 style='margin:5px 20px;'>权限申请</h2>
+<table>
+	<tr>
+		<th>
+			申请人
+		<th/>
+		<td>
+			{{ cnname }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请人邮箱
+		<th/>
+		<td>
+			{{ mail }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请日期
+		<th/>
+		<td>
+			{{ date }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			申请时间
+		<th/>
+		<td>
+			{{ time }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			填表权限
+		<th/>
+		<td>
+			{{ w }}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			审批权限
+		<th/>
+		<td>{% if a %}
+			{% for au_item in a %}
+			{{au_item}},
+			{% endfor %}
+			{% endif %}
+		</td>
+	</tr>
+	<tr class='process_log_tr'>
+	<td colspan="3" style="text-align:center;">
+	{% if loaded_log %}
+	{% for ic,log in loaded_log.iteritems %}
+		{{ log }}
+	{% endfor %}
+	{% endif %}
+	</td>
+	</tr>
+</table>

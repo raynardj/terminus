@@ -1,0 +1,20 @@
+<html>
+{% load static %}
+
+<!-- test site in 5001, to test the cross site effect receiving file, on host 5000 -->
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<body>
+	<div>
+	<form enctype="multipart/form-data" action='http://gallifrey:5000/w' method='POST'>
+	<table>
+		{{up_form.as_table}}
+
+	</table>
+	<input type="submit" name="submit"/>
+	</form>
+	</div>
+</body>
+
+
+
+</html>

@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type='text/javascript' src='{% static "js/bootstrap.js" %}'></script>
+	<style type="text/css">
+		@import url('{%static "css/bootstrap.css"%}');
+		@import url('{%static "css/bootstrap_theme.css"%}');
+		body
+		{
+			margin:0px;
+			padding:0px;
+			background-color:#FFF;
+			color:#000;
+			font-family:微软雅黑,Tahoma,Arial;
+			text-align:center;
+		}
+		#col_left
+		{
+			width:400px;
+			display: inline-block;
+			vertical-align: top;
+			text-align: left;
+			padding:10px;
+		}
+		#id_formtype
+		{
+			padding:5px;
+			border:1px solid #CCC;
+			border-radius:5px;
+			width:180px;
+			background-color: #FFF;
+		}
+		#ar_upload_table
+		{
+			font-family:微软雅黑,Tahoma,Arial;
+		}
+		h2
+		{
+			font-family:微软雅黑,Tahoma,Arial;
+			font-weight: 100;
+		}
+		.red_text
+		{
+			color:red;
+		}
+		#col_right
+		{
+			display: inline-block;
+			vertical-align: top;
+			width:600px;
+			overflow: scroll;
+			margin:20px;
+		}
+		.dataframe th
+		{
+			white-space: nowrap;
+			background-color: #4682B4;
+			color:#FFF;
+			border:0px solid #FFF;
+			padding:2px 5px;
+		}
+		.dataframe td
+		{
+			white-space: nowrap;
+			border:0px solid #FFF;
+			padding:2px 5px;
+		}
+		button
+		{
+			padding:10px 20px;
+			background-color: #4682B4;
+			color:#FFF;
+			border-radius:5px;
+			border:0px solid #FFF;
+		}
+	</style>
+	<title>应收账款逾期报表上传 Account Receivable Overdue Report Up load --Terminus II</title>
+</head>
+<body>
+{{userb}}
+<div id="col_left">
+{{backmsg}}
+{{fm.media}}
+<h2>应收账款逾期报表上传</h2>
+<h2>Account Receivable Overdue Report UPload</h2>
+<br>
+<div>上传人:<span class="red_text">{{cnname}}</span></div>
+<br>
+<div>
+
+<table id='ar_upload_table'>
+<form method='POST' enctype='multipart/form-data' action="/arupload">
+	{% for field in fm.visible_fields %}
+            <div id="div_{{ field.html_name }}"
+                 class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-muted pull-right">
+                    <small>{{ field.help_text }}</small>
+                </div>
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+	{% endfor %}
+	{% csrf_token %}
+	<tr>
+		<td colspan="2" style="text-align:center;"><button id='upload_btn'>上传</button></td>
+	</tr>
+</form>
+</table>
+<br>
+<br>
+
+<h3>Controls</h3>
+<br>
+<button id='cplist2bu'>CP List</button>
+<button id='cplist2bu_uc'>CP List Cash</button>
+<div id='control_result'></div>
+</div>
+
+</div>
+
+<div id='col_right'>
+	{{preview|safe}}
+</div>
+
+</body>
+<script type="text/javascript">
+$(document).ready(function page_loaded(){
+	$("#cplist2bu").click(function click_cp2bu(){
+		$("#control_result").html("Processing...")
+		var aj={};
+		aj.btn="match_cplist";
+		$.ajax({
+			url:"button",
+			async:true,
+			data:aj,
+			method:"GET",
+			success:function cplist2bu_aj_success(data){
+				if(data=="ok")
+				{
+				$("#control_result").html("Match Successfully")
+				}
+			}
+		})
+	})
+	$("#cplist2bu_uc").click(function click_cp2bu(){
+		$("#control_result").html("Processing...")
+		var aj={};
+		aj.btn="match_cplist_uc";
+		$.ajax({
+			url:"button",
+			async:true,
+			data:aj,
+			method:"GET",
+			success:function cplist2bu_aj_success(data){
+				if(data=="ok")
+				{
+				$("#control_result").html("Match Successfully")
+				}
+			}
+		})
+	})
+})
+</script>
+</html>

@@ -1,0 +1,92 @@
+<style type='text/css'>
+#pstatus_checkbox label
+{
+	font-family:微软雅黑,Tahoma,Arial;
+	font-weight:normal;
+}
+li
+{
+	height:18px;
+	font-weight: normal;
+}
+.group_line_item
+{
+	font-family:微软雅黑,Tahoma,Arial;
+	text-decoration: underline;
+	padding:3px;
+}
+div
+{
+	font-family:微软雅黑,Tahoma,Arial;
+}
+.userttl_amount
+{
+	float:right;
+	color:red;
+}
+</style>
+<h3>查看条件</h3>
+<div id='officeuse_status_ckboxes'>
+<table id='pstatus_checkbox'>
+{{ cbform.as_p }}
+</table>
+</div>
+{% if groups %}
+<div id='groups_1st_list'>
+<div>我的部门:</div>
+{% for group in groups %}
+<div class='group_line_item' data-groupid='{{group.id}}' data-layer='2'>{{group.cnname}} ({{group.gtier}}级)</div>
+{% endfor %}
+<div>附属部门:</div>
+{% for group in boundgroup %}
+<div class='group_line_item' data-groupid="{{group.id}}" data-layer='2'>{{group.cnname}}
+{% if group.gtier %} ({{group.gtier}}级)
+{% endif %}
+ </div>
+{% endfor %}
+{% endif %}
+</div>
+<div class='transparent_self_review' data-mail='self' data-layer='3'>
+查看自己的表单
+</div>
+<script type='text/javascript'>
+function clickuser_item(obj)
+{
+	var ajd={}
+		ajd=readform_left()
+		ajd.pstatus=read_cb("pstatus")
+		ajd.layer="3"
+		ajd.mail=$(obj).data("mail")
+		$.ajax({
+			url:"/transparent_aj",
+			method:"GET",
+			async:true,
+			data:ajd,
+			success:function(data){
+				$("#forth_namelist").html(data)
+			}
+		})
+}
+$(document).ready(function(){
+$(".transparent_self_review").click(function(){
+	clickuser_item(this)
+})	
+$(".group_line_item").click(function(){
+	var ajd={}
+	ajd=readform_left()
+	ajd.pstatus=read_cb("pstatus")
+	ajd.groupid=$(this).data("groupid")
+	ajd.layer=$(this).data("layer")
+	$.ajax({
+		url:"/transparent_aj",
+		async:true,
+		method:"GET",
+		data:ajd,
+		success:function(data){
+			$("#third_namelist").html(data)
+		}
+	})
+})
+})
+
+</script>

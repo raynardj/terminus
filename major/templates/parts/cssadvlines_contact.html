@@ -1,0 +1,59 @@
+{% for page in ttlpg %}
+<button class='ca_flip' data-skippg='{{page}}' data-csstask='contact'>{{ page }}</button>
+{% endfor %}
+{% if contact_showlist %}
+<table class="ca_table">
+<tr><td><input id='select_all_cb' type='checkbox'></td><td id='delete_checked'>删除选中</td></tr>
+<tr>
+<th></th></th><th>Name</th><th>Phone</th><th>Cell Phone</th>
+</tr>
+{% for showline in contact_showlist %}
+<tr>
+<td>
+<input type='checkbox' name='linecheck' class='cssadvline_check' value='{{showline.id}}'>
+</td>
+<td>
+{{showline.name}}
+</td>
+<td>
+{{showline.phone}}
+</td>
+<td>
+{{showline.cellphone|floatformat}}
+</td>
+
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#select_all_cb").click(function(){
+			if(this.checked)
+			{
+				$(".cssadvline_check").each(function(){this.checked=true})
+			}
+			else
+			{
+				$(".cssadvline_check").each(function(){this.checked=false})
+			}
+		})
+		$("#delete_checked").click(function(){
+			var chkd=read_cb("linecheck")
+			console.log(chkd)
+		})
+		$(".ca_flip").click(function(){
+			var ipt=$(this).data()
+			$.ajax({
+				url:"/cssadvlist_aj",
+				method:"GET",
+				async:true,
+				data:ipt,
+				success:function(data){
+				$("#data_feedback").html(data);
+				},
+			})
+		})
+	})
+</script>

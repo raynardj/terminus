@@ -1,0 +1,87 @@
+{% if css_url %}
+<style type="text/css">
+@import url("static/{{ css_url }}");
+</style>
+{% endif %}
+<div style="display:inline-block;padding:0px 10px;"><a href='/download'>下载数据</a></div>
+<div style="display:inline-block;padding:0px 10px;"><a href='/download?loadback=yes'>回传数据</a></div>
+<div class="table_book_frame">
+	<div id='{{ aj_id }}_tools_frame' class='table_book_tools_frame'>
+		<div class='table_book_tools'>
+			<div id='{{ aj_id }}_tool_title'>
+				<div class='show_hide_switch'>
+					<div id='{{aj_id}}_show_btn' class='table_book_show_btn' style="display: inline-block;">
+					筛选工具
+					</div>
+					<div id='{{aj_id}}_hide_btn' class='table_book_hide_btn' style="display: inline-block;">
+					隐藏
+					</div>
+				</div>
+			</div>
+			<div id='{{ aj_id }}_tool_body' style="display: none;" class="tool_body">
+				{{ field_form }}
+			</div>
+		</div>
+		<div id='{{aj_id}}_flipper' class='page_flipper'>
+		</div>
+	</div>
+	<div id="{{ aj_id }}_table" class="table_aj_box">
+	Loading...
+	</div>
+</div>
+<script type='text/javascript'>
+function {{aj_id}}_load_flipper()
+{
+	var extra_condi=arguments[0] ? arguments[0]:"";
+	var flipipt={}
+	flipipt.condi="{{condi_dict1|safe}}";
+	flipipt.type="page_selector";
+	flipipt.page_limit= {{page_limit}} ;
+	flipipt.row_func="{{row_func_name}}"
+	flipipt.db="{{db}}";
+	flipipt.coll="{{collection}}";
+	flipipt.extra_condi=extra_condi
+	$.ajax({
+		url:"/tablebook_aj",
+		method:"GET",
+		async:false,
+		data:flipipt,
+		success:function(data){
+		$("#{{aj_id}}_flipper").html(data)
+		}	
+	})
+}
+function {{aj_id}}_load_data()
+{
+	var extra_condi=arguments[0] ? arguments[0]:"";
+	var flipipt={}
+	flipipt.condi="{{condi_dict1|safe}}";
+	flipipt.type="mgdt";
+	flipipt.page_limit= {{page_limit}} ;
+	flipipt.db="{{db}}";
+	flipipt.coll="{{collection}}";
+	flipipt.row_func="{{row_func_name}}"
+	flipipt.skips=$("#id_page").val()-1;
+	flipipt.field_dict="{{field_dict|safe}}"
+	flipipt.extra_condi=extra_condi
+	$.ajax({
+		url:"/tablebook_aj",
+		method:"GET",
+		async:false,
+		data:flipipt,
+		success:function(data){
+		$("#{{aj_id}}_table").html(data)
+		}	
+	})
+}
+$(document).ready(function(){
+	$("#{{ aj_id }}_show_btn").click(function(){
+		$("#{{ aj_id }}_tool_body").show(300);
+	})
+	$("#{{ aj_id }}_hide_btn").click(function(){
+		$("#{{ aj_id }}_tool_body").hide(300);
+	})
+	{{aj_id}}_load_flipper()
+	{{aj_id}}_load_data()
+})
+</script>

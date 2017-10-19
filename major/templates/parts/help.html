@@ -1,0 +1,115 @@
+
+<style>
+.center_col_frame
+{
+	width:900px;
+	margin:30px auto;
+	font-size:14px;
+	font-family:微软雅黑,Tahoma,Arial;
+	text-align:left;
+}
+h3
+{
+	color:#fff;
+	background-color: #4682B4;
+	font-weight:500;
+	font-size:30px;
+	padding:20px 50px 10px 50px;
+	border-radius:5px;
+}
+.center_col_frame a:visited,.center_col_frame a:link
+{
+	font-weight:500;
+	text-decoration: none;
+	color:#191970;
+}
+summary
+{
+	font-size:18px;
+	font-weight:400;
+	color:#fff;
+	background-color: #4682B4;
+	padding:5px;
+}
+p
+{
+	margin:20px 10px;
+}
+mark
+{
+	background-color: #fff;
+	color:#FF4500;
+	font-size:15px;
+	font-weight:600;
+}
+</style>
+<div class='center_col_frame'>
+<h3>
+	用户帮助
+</h3>
+<details>
+<summary class='summary_tier1'>
+谁可以享用这个系统？
+</summary>
+<p>史泰博的员工都可以，只要你有公司邮箱就能<a href='/register'>注册</a>。</p>
+<p>和现下大多数的网站一样，目前支持<mark>Firefox/火狐, Chrome, Safari, Opera，Edge</mark>等主流的浏览器</p>
+<p>不支持早期版本的IE，不支持360浏览器的兼容模式(因为兼容模式就是在模仿IE),但可以用极速模式</p>
+</details>
+<!-- Seperate Line -->
+<details>
+<summary class='summary_tier1'>
+我要注册！
+</summary>
+<p>进入<a href='/register'>注册的页面</a>。</p>
+<p>填入公司的邮箱（一定要是公司的邮箱）和密码。点击初始化密码。</p>
+<p>这时会有一封确认邮件进入您的公司邮箱，登录邮件中的确认链接即可，确认链接<mark>15分钟内有效</mark>。</p>
+<p>完成注册，请立即进入<a href='/userinfo'>个人信息设置页面</a>设置自己的详细信息，如果不设置将无法使用大部分功能。</p>
+</details>
+<details>
+<!-- Seperate Line -->
+<summary class='summary_tier1'>
+如何使用行政领用功能?
+</summary>
+<p>进入<a href='/officeuse' target='_blank'>行政领用界面</a>（必须要等录系统）</p>
+<p>自动获取（推荐）：</p>
+<p>贴入公司官网的产品链接，如：www.staples.cn/product/1100002694EA  .</p>
+<p>点击<mark>[获取]</mark>，等待若干秒钟时间，如果公司官网服务器给力的话，3秒内就能自动完成填表.</p>
+<p>可以点击‘数量’一栏的设置，一次领取多个.</p>
+<p>极少数情况下，系统无法自动爬取官网的信息，也可以手工填写各项行政领用的内容。</p>
+<p>点击<mark>[OK]</mark>，递交行政领用申请</p>
+<p>温馨提示：如果是1）自动获取的数据，2）并发现使用的是公司自有品牌，3）且总金额小于100元，则不需要经理审批。
+不满足以上三个条件的，一律要部门经理审批，审批后才能下单。</p>
+<p>可以在<a href='/process?list=sf' target='_blank'>我递交的申请</a>页面，查看自己已经递交的行政领用申请</p>
+</details>
+<!-- Seperate Line -->
+<details>
+<summary class='summary_tier1'>
+如何下载表单数据?
+</summary>
+<p>截止至系统BETA测试版发布的时间，只有行政领用表单可以下载。这里以行政领用表单的下载为例。</p>
+<p>打开<a href='/download'>表单下载页面</a>。</p>
+<p>关于日期的选择：</p>
+<p>可以选择<mark>[开始日期]</mark>和<mark>[结束日期]</mark>，框定要下载数据的时间范围。不填这两个日期也可以。也就是没有时间上限、或者时间下限、或者没有任何时间限制。</p>
+<p>如果选择11月1日～11月2日的数据，框定的时间范围是11月1日凌晨至11月2日半夜共48个小时。</p>
+<p>这里的日期指的是申请人<mark>申请的日期</mark>，如果被审批人退回重新申请，则以重新申请的日期为准。 </p>
+<p>选择<mark>[审批团队]</mark>：</p>
+<p>按照级别'3'的团队（如财务部，IT部）下载数据。</p>
+<p>选择<mark>[申请种类]</mark>：</p>
+<p>选择行政领用</p>
+<p>点击<mark>[下载]</mark>后，会出现一个预览界面，在这个页面选择<mark>[下载数据]</mark>。</p>
+<p>默认保存为xlsx格式。</p>
+</details>
+<!-- Seperate Line -->
+<details>
+<summary class='summary_tier1'>
+配置团队规则
+</summary>
+<p>每个用户都可以建立团队，团队内部可以在特定界面聊天（类似群聊），收到团队内部才能收到的消息/提醒等。</p>
+<p>团队里有两种角色，<mark>管理员(leader)</mark>和<mark>成员(member)</mark>。两种角色都可以分配给多个人员。建立团队的用户在初始时，默认同时是管理员+成员。</p>
+<p>管理员可以<mark>题名</mark>任何一个用户成为管理员/成员，成员<mark>只可以看到</mark>团队内其他管理员/成员的名单。</p>
+<p>为了方便大家组队，管理员在添加成员的时候，可以<mark>绑定</mark>其他的团队，<mark>一键导入</mark>其他团队所有成员。举例：上海财务部和IT部如果想一起举办一场踏青活动，再打算叫上几名销售一起，则可以新建一个团队叫"3月踏青活动"，然后绑定上海财务部和上海IT部一键导入，再添加几位销售的个人帐号就行了，不到三十秒即可灵活组建一个上百人的团队。</p>
+<p>只能用绑定添加成员，不能用绑定功能添加管理员。</p>
+<p>大多数临时组建的团队没有任何表单审批权限。</p>
+<p>特定的团队是预设了特定的审批权限的。</p>
+</details>
+</div>

@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+<head>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<style type="text/css" >
+@import url('{%static "css/a.css"%}');
+{{loaded_css}}
+
+</style>
+</head>
+<title>{{title}}</title>
+<body>
+{{ userb }}
+{{ backmsg }}
+{% for bname,bodyitem in bodies.iteritems %}
+	<div class='body_item'>
+		{{bodyitem|safe}}
+    </div>
+{% endfor %}
+
+</body>
+</html>

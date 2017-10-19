@@ -1,0 +1,35 @@
+{% load static %}
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+@import url('{% static "css/major_msg.css" %}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Terminus {{ msg_title }}</title>
+</head>
+
+<body>
+{{ userb }}
+<div id='msg_head'>
+	{{ msg_head }}
+</div>
+<div id='msg_body'>
+	{{ msg_body|safe }}
+    {% if msg_form %}
+    <form enctype="multipart/form-data"  method="POST" action='/upload'>
+    {% csrf_token %}
+    <table>
+    {{ msg_form.as_table }}
+    </table> 
+    <input type='submit' value='提交'>
+    </form>
+	{% endif %}
+    <br>
+    {{ msg_body2|safe }}
+</div>
+<div id='msg_links'>
+	{{ msg_links|safe }}
+</div>
+</body>
+</html>

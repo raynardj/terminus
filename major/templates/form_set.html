@@ -1,0 +1,158 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type='text/javascript' src='/static/js/js/jquery.js'></script>
+<style>
+body
+{
+  text-align:center;
+  background-color:#FFF;
+  color:#000;
+  font-family:微软雅黑,Tahoma,Arial;
+  padding:0px;
+  margin:0px;
+}
+h1
+{
+  padding:20px 20px 5px 20px;
+  font-weight: normal;
+}
+th
+{
+	text-align:left;
+  font-weight:500;
+  color:#aaa;
+}
+tr
+{
+	height:50px;
+}
+table
+{
+	margin: 20px auto;
+}
+input
+{
+	border:1px solid #ddd;
+  border-width:1px 0px;
+	padding :5px;
+  font-family:微软雅黑,Tahoma,Arial;
+	width:200px;
+  font-size:15px;
+}
+select
+{
+  width:150px;
+  font-family:微软雅黑,Tahoma,Arial;
+  font-size:15px;
+  padding: 3px 5px;
+  text-align: center;
+  border:1px solid #ddd;
+  border-width: 1px 0px;
+}
+option
+{
+  padding:3px 10px;
+  font-family:微软雅黑,Tahoma,Arial;
+  border:1px solid #ddd;
+  border-width:0px 1px;
+  font-size:15px;
+}
+.auth_task_guide_btn
+{
+  margin:3px auto;
+  padding:2px 10px;
+  background-color: #FFF;
+  border:1px solid #09c;
+  border-radius:5px;
+  height:28px;
+  box-shadow: 0px 0px 5px #777 inset;
+}
+#id_subm_btn
+{
+	width:120px;
+	font-family:微软雅黑,Tahoma,Arial;
+	font-size:20px;
+	border-width:0px;
+	box-shadow:0px 0px 0px #fff;
+	background-color:#4682B4;
+  border-radius:5px;
+	color:#fff;
+}
+.text_red
+{
+  color:red;
+}
+.formset_left_col
+{
+  width:450px;
+  margin:0px auto;
+  display:inline-block;
+  vertical-align: top;
+}
+.formset_right_col
+{
+  width:400px;
+  margin:0px auto;
+  display:inline-block;
+  vertical-align: top;
+  font-family:微软雅黑,Tahoma,Arial;
+  padding:100px 20px;
+}
+.explain_msg
+{
+  display: none;
+  text-align:left;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}Terminus</title>
+</head>
+
+<body>
+{{ userb }}
+{% if msgback %}
+<div class='text_red'>{{ msgback }}</div>
+{% endif %}
+  <div class='formset_left_col'>
+	<h1>设置 &nbsp&nbsp&nbsp {{act_cn}}</h1>
+    <form method="POST" action="/{{ act|lower }}">
+    <table>
+    		{% csrf_token %}
+        	{{ form.as_table }}
+    </table>
+    		<input id='id_subm_btn' type='submit' value='确认'></input>
+    </form>
+    <div>{{ msg_return }}</div>
+    <br>
+    {{ extra }} 
+
+  </div>
+  <div class='formset_right_col'>
+  <p class='explain_msg' id='ex_cnname'>填入您的中文名<br>规范的格式例如：<br>张晓晨</p>
+  <p class='explain_msg' id='ex_enname'>设置英文名可以方便您的同事们轻松搜索到您<br>
+  规范的中文名格式例如<br>例如：Raynard Zhang<br>没有英文名的话按照这样的格式填写:XiaoChen Zhang</p>
+  <p class='explain_msg' id='ex_ext'>您的座机分机号<br>一般是4位数的号码<br>没有分机可以填您的直线</p>
+  <p class='explain_msg' id='ex_manager'>填入您直属领导的中文名</p>
+  </div>
+
+</body>
+<script type='text/javascript'>
+$(document).ready(function(){
+$("input").focus(function(){
+  var new_id=$(this).attr("id").replace("id","ex")
+  $("#"+new_id).css("display","block")
+})
+$("input").blur(function(){
+   var new_id=$(this).attr("id").replace("id","ex")
+  $("#"+new_id).css("display","none")
+})
+})
+</script>
+<style>
+.link_a:link,.link_a:visited
+{
+  color:#000;
+}
+</style>
+</html>

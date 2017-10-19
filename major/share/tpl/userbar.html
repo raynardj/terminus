@@ -1,0 +1,147 @@
+<div id='userbar'>
+<div class='link_wordl'>
+	<a class='hlink' href="/" style='font-family:{{st.font.logo}}'>{{st.info.sitename}}</a>
+</div>
+<div class='site_motto'><a class='hlink' href="/">{{st.info.sitemotto}}</a></div>
+{% if st.info.logosrc %}
+<img src='{{st.info.logosrc}}' id='pagelogo' alt='{{st.info.sitemotto}}' title='{{st.info.sitemotto}}'></img>
+{% endif %}
+{% if session.onboard %}
+<div class='link_word userb_menu_btn' data-menuid="userb_personal_menu">
+
+<a class='hlink' style='color:#fff;'>User</a>
+<div class='userb_dropdown_menu' id='userb_personal_menu'>
+	<div class='userb_menu_item'><a class='hlink' href="/userinfo"><div class='menulink'>Settings</div></a></div>
+	<div class='userb_menu_item'>
+	<a class='hlink' title='Switch Account' href="/login?logout=1" >
+	<div class='menulink'>Logout</div>
+	</a>
+	</div>	
+</div>
+</div>
+{% else %}
+<div class='link_word'><a class='hlink' href="/login">Login</a></div>
+{% endif %}
+</div>
+	<div id='ubpadding'>
+	</div>
+<script type='text/javascript'>
+$(document).ready(function()
+{
+$(".userb_menu_btn").click(function(){
+	var menuid=$(this).data("menuid")
+	$("#"+menuid).toggle(300)
+})
+$(".userb_menu_item").hover(function(){$(this).css("background-color","{{st.color.second}}")})
+$(".userb_menu_item").mouseleave(function(){$(this).css("background-color","{{st.color.first}}")})
+$(".userb_menu_item").blur(function(){
+	setTimeout(function(){
+	$(this).parents(".userb_dropdown_menu").toggle(300)
+	},300)
+})
+
+})
+</script>
+<style>
+#userbar
+{
+	border:1px solid {{st.color.second}};
+	border-width:0px 0px 0px 0px;
+	width:100%;
+	height:60px;
+	font-family:{{st.font.first}};
+	position: fixed;
+	background-color:{{st.color.first}};
+	color:#fff;
+	z-index:990;
+}
+#namesearch_input
+{
+	display:inline-block;
+}
+.hlink:link
+{
+	color:inherit;
+	text-decoration:none;
+}
+.hlink:visited
+{
+	color:inherit;
+	text-decoration:none;
+}
+#namesearch_drop
+{
+	background-color: #fff;
+	color:#777;
+	font-size:15;
+}
+.link_word
+{
+	color:#fff;
+	text-decoration:none;
+	display:inline-block;
+	float:right;
+	font-size:20px;
+	margin:25px 10px 5px 10px;
+}
+
+.link_wordl
+{
+	color:#fff;
+	text-decoration:none;
+	display:inline-block;
+	float:left;
+	font-size:20px;
+	margin:25px 10px 5px 10px;
+}
+#ubpadding
+{
+	width:100%;
+	height:70px;
+	background-color: {{st.color.second}};
+	margin:0px 0px 20px 0px;
+}
+#pagelogo
+{
+	width:320px;
+	position:fixed;
+	margin:15px auto;
+	right:280px;
+	font-family: {{st.font.logo}};
+	font-size:30px;
+}
+.userb_menu_item
+{
+	background-color:{{st.color.first}};	
+	margin:3px auto;
+	border-radius:3px;
+	padding:3px;
+}
+.userb_dropdown_menu
+{
+	width:150px;
+	right:20px;
+	position:absolute;
+	font-size:17px;
+	box-shadow: 0px 0px 5px #fff;
+	display:none;
+}
+.userb_menu_btn
+{
+	width:80px;
+	overflow-x:visible;
+}
+.menulink
+{
+	width:140px;
+}
+.site_motto
+{
+	text-decoration:none;
+	display:inline-block;
+	float:left;
+	font-size:15px;
+	color:{{st.color.second}};
+	margin:31px 10px 5px 10px;
+}
+</style>

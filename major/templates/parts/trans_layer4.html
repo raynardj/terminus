@@ -1,0 +1,112 @@
+<style type='text/css'>
+.transparent_table tr
+{
+	height:40px;
+	border: 1px dashed #ccc;
+	border-width:2px 0px;
+}
+.transparent_table td
+{
+	padding:0px 5px;
+	border:1px dotted #eee;
+	border-width:0px 1px;
+}
+.officeuse_detail_table
+{
+	width:480px;
+	background-color:#eee;
+	border-radius:5px;
+}
+.officeuse_detail_table tr
+{
+	height:30px;
+}
+.process_log_frame
+{
+	width:450px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+.detail_hide_btn
+{
+	background-color:#4682b4;
+	color:#FFF;
+	font-size: 20px;
+	text-align:center;
+	width:100px;
+	border-radius:10px;
+}
+.process_log_date
+{
+	margin:auto 5px auto 200px;
+}
+</style>
+<div style='text-align:center'>
+<div class='transparent_name_frame' style='text-align:left;font-size:20px'>{{cnname}}</div>
+<div style='text-align:left;font-size:20px'>金额总计:{{total}}</div>
+
+<table class='transparent_table'>
+<tr>
+<td style='min-width: 36px'>详情</td>
+<td>物品</td>
+<td>单价</td>
+<td style='min-width: 36px'>数量</td>
+<td>总价</td>
+<td>日期</td>
+</tr>
+{% for process in prolist %}
+<tr>
+<td id='{{ process.id }}_preview' class='row_preview' data-processid='{{ process.id }}' data-process='officeuse' style='color:#09c;'>
+详情
+</td>
+<td title='{{process.itemname}}' style='max-width:200px;word-break:break-all;overflow:hidden;white-space:nowrap;'>
+{{process.itemname}}
+</td>
+<td>
+{{process.price}}
+</td>
+<td>
+{{process.qtt}}
+</td>
+<td>
+{{process.ttlamt}}
+</td>
+<td>
+{{process.tms}}
+</td>
+</tr>
+<tr class='detailrow' style="display:none;" id='{{ process.id }}_detailrow' >
+<td colspan="6" style='max-width:500px;overflow-wrap'>
+<div class='detail_hide_btn' data-processid='{{ process.id }}' >隐藏</div>
+<div class='process_detail_box' id='{{ process.id }}_process_detail_aj'></div>
+</td></tr>
+{% endfor %}
+</table>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".row_preview").click(function(){
+	var ipt={}
+	ipt=$(this).data();
+	ipt.type='detail';
+	$.ajax({
+		url:'/tablebook_aj',
+		data:ipt,
+		method:"GET",
+		async:false,
+		success:function(data)
+		{
+			$(".detailrow").hide()
+			$("#"+ipt.processid+"_detailrow").show(300)
+			$("#"+ipt.processid+"_process_detail_aj").html(data)
+		}
+		})
+	})
+$(".detail_hide_btn").hover(function(){$(this).css("box-shadow","0px 0px 5px #555 inset")})
+$(".detail_hide_btn").mouseleave(function(){$(this).css("box-shadow","0px 0px 0px #555")})
+$(".detail_hide_btn").click(function(){
+	$("#"+$(this).data("processid")+"_detailrow").hide(300)
+})
+
+})
+</script>

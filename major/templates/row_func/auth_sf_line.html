@@ -1,0 +1,53 @@
+<tr>
+
+<td class='mgrow'>
+<input type='checkbox'></input>
+</td>
+<td class='mgrow'>
+<div id='{{ id }}_preview' class='row_preview' data-processid='{{ id }}' data-process='{{ process }}' style='color:#09c;'> 
+详情
+</div>
+</td>
+
+<td class='mgrow'>{{ name }}</td>
+<td class='mgrow' style='text-align: center;'>{{ processcn }}</td>
+
+<td class='mgrow'>{{ time }}</td>
+
+<td class='mgrow
+ 
+{% if stage_des == "申请失败" %}
+tshadow_red
+{% elif stage_des == "自行撤回" %}
+tshadow_red
+{% elif stage_des == "审批成功" %}
+tshadow_blue
+{% elif stage_des == "申请人修改" %}
+tshadow_yellow
+{% elif stage_des == "审批中" %}
+tshadow_green
+{% endif %}
+'>{{ stage_des }}</td>
+
+<td class='mgrow'>
+{% if edit %}
+<a href='/process?processid={{id}}' title='Edit This Application'>
+	<div class="edit_btn" style="display:inline-block;"> {{edit}} </div>
+</a>
+{% elif removable %}
+<div class='sf_remove_btn' data-processid='{{id}}' style="display:inline-block;">撤销</div>
+{% else %}
+
+{% endif %}
+</td>
+<td class='mgrow' style='max-width:320px;overflow:hidden;white-space: nowrap;word-break: break-all;' title='{{ review_brief }}'>
+<div style=''>{{ review_brief|safe }}</div>
+</td>
+<td class='fortest'>{{ all_dict }}</td>
+</tr>
+<tr class='detailrow' style="display:none;" id='{{ id }}_detailrow' >
+<td colspan="9">
+<div class='detail_hide_btn' data-processid='{{ id }}'>隐藏</div>
+<div class='process_detail_box' id='{{ id }}_process_detail_aj'></div>
+</td>
+</tr>

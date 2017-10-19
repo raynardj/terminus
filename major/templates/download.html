@@ -1,0 +1,52 @@
+{% load static %}
+{# Load the tag library #}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<script type='text/javascript' src='{%static "js/bootstrap.js"%}'></script>
+{{form.media}}
+<style type="text/css" >
+@import url('{%static "css/major_download.css"%}');
+@import url('{%static "css/bootstrap.css"%}');
+@import url('{%static "css/bootstrap_theme.css"%}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>下载页面</title>
+</head>
+<body>
+{{ userb }}
+{% if backmsg %}
+<div style="color:red">{{backmsg}}</div>
+{% endif %}
+<div id='page_center_column'>
+	<h2>下载数据</h2>
+
+
+        <form method="GET" action='/download_aj' role="form">
+            {% for field in form.visible_fields %}
+            <div id="div_{{ field.html_name }}"
+                 class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-muted pull-right">
+                    <small>{{ field.help_text }}</small>
+                </div>
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="submit" value="下载" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <!-- <a href='download?loadback=yes'><div class='btn btn-primary' style='margin:5px 30px'>回传数据</div></a> -->
+
+</div>
+</body>
+</html>

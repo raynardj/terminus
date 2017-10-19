@@ -1,0 +1,156 @@
+<style type="text/css">
+	.line_detail_space
+	{
+		display:none;
+		border-radius:5px;
+		padding:5px;
+		box-shadow: 0px 0px 5px #000 inset;
+	}
+	.ca_table th
+	{
+		text-align: center;
+	}
+	#flip_bar
+	{
+		text-align: center;
+		margin: 15px auto;
+	}
+	.line_detail_space_aj
+	{
+		background-color: #EEE;
+	}
+	.ca_table button
+	{
+		border:0px solid #FFF;
+		border-radius:3px;
+		background-color: #4682B4;
+		color:#FFF;
+		padding:5px;
+		margin:2px;
+	}
+</style>
+<div id='flip_bar'>
+{% for page in ttlpg %}
+<button class='ca_flip' data-skippg='{{page}}' data-status='{{status}}' data-csstask='{{csstask}}'>{{ page }}</button>
+{% endfor %}
+</div>
+{% if showlist %}
+<table class="ca_table">
+<tr>
+<th>
+<div id='delete_checked'>[X]</div>
+<input id='select_all_cb' type='checkbox' >
+</th><th>Upload</th><th>Uploader</th><th>TaskName</th><th>Status</th><th>Action</th>
+</tr>
+{% for showline in showlist %}
+<tr id="line{{showline.id}}">
+<td>
+<input class="cssadvline_check" type='checkbox' name='groupcb' data-btnid='#remove_{{showline.id}}'>
+</td>
+<td>
+{{showline.log.uptime}}
+</td>
+<td>
+{{showline.log.upsu}}
+</td>
+<td>
+{{showline.csstask}}
+</td>
+<td>
+{% if showline.status == "1" %}
+Done
+{% elif showline.status == "0" %}
+Pending
+{% elif showline.status == "-1" %}
+Removed
+{% endif %}
+</td>
+<td>
+<button id='detail_{{showline.id}}' class='cssdetail_btn' data-mid="{{showline.id}}" data-csstask="{{showline.csstask}}" data-action="details">details</button>
+<button id='remove_{{showline.id}}' data-uid="{{showline.id}}" data-md="fbremove" class='id_remove'>remove</button>
+</td>
+
+</tr>
+
+<tr id='tr{{showline.id}}' class='line_detail_space'>
+<td colspan="5">
+<button class='hide_details' data-hidemid="tr{{showline.id}}">Hide Details</button>
+<div id='aj_space_{{showline.id}}' class='line_detail_space_aj'>
+	正在加载........................
+</div>
+</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#select_all_cb").click(function(){
+			if(this.checked)
+			{
+				$(".cssadvline_check").each(function(){this.checked=true})
+			}
+			else
+			{
+				$(".cssadvline_check").each(function(){this.checked=false})
+			}
+		})
+		$("#delete_checked").click(function(){
+			var chkd=read_cb("linecheck")
+			console.log(chkd)
+		})
+		$(".ca_flip").click(function(){
+			var ipt=$(this).data()
+			$.ajax({
+				url:"/cssadvlist_aj",
+				method:"GET",
+				async:true,
+				data:ipt,
+				success:function(data){
+				$("#data_feedback").html(data);
+				},
+			})
+		})
+		$(".hide_details").click(function(){
+			$("#"+$(this).data("hidemid")).css("display","none")
+		})
+		$(".cssdetail_btn").click(function(){
+			var dt=$(this).data()
+			$("#tr"+dt.mid).css("display","table-row")
+			$.ajax({
+				url:"/cadetail",
+				data:dt,
+				async:true,
+				method:"GET",
+				success:function (data) {
+					// details from db
+					$("#aj_space_"+dt.mid).html(data)
+				}
+			})
+		})
+		$('.id_remove').click(function(){
+			var dt=$(this).data()
+			$.ajax({
+				url:"/cssadvjs",
+				data:dt,
+				method:"GET",
+				async:true,
+				success:function(data){
+					if ($.parseJSON(data).uid==dt.uid)
+					{
+						$("#line"+dt.uid).remove()
+						$("#tr"+dt.uid).remove()
+						console.log(dt.uid+" removed,status -1")
+					}
+				}
+			})
+		})
+		$("#delete_checked").click(function(){
+			$(".ca_table").find(".cssadvline_check").each(function(){
+				if (this.checked)
+				{
+					$($(this).data("btnid")).click()
+				}
+			})
+		})
+	})
+</script>

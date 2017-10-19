@@ -1,0 +1,17 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css" >
+@import url('{%static "css/major_clients.css"%}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>客户页面</title>
+</head>
+<body>
+<div id='top_bar'></div>
+客户编号:{{ clientobj.client }}
+<br>
+客户中文名:{{ clientobj.client_cn }}
+
+</body>
+</html>

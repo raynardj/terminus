@@ -1,0 +1,32 @@
+<style>
+.link_a:link
+{
+	color:#eee;
+	text-decoration:none;
+	width:100px;
+}
+.link_a:visited
+{
+	color:#eee;
+	text-decoration:none;
+	width:100px;
+}
+.link_div
+{
+	display:inline-block;
+	color:#eee;
+	text-decoration:none;
+	text-align:center;
+	background-color:hsla(0,50%,50%,0);
+	height:24px;
+	padding:5px;
+	width:145px;
+	border:0px solid hsla(0,50%,50%,0);
+	border-radius:5px;
+	margin:10px auto;
+}
+
+</style>
+{% for k,v in link_dict %}
+	<div class='link_div'><a class='link_a' href='{{v}}'>{{k}}</a></div>
+{% endfor %}

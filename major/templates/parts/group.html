@@ -1,0 +1,283 @@
+<style type='text/css'>
+body
+{
+	text-align: center;
+	background-color: #fff;
+	color:#000;
+	font-family:微软雅黑,Tahoma,Arial;
+}
+#group_manage_frame
+{
+
+}
+#group_left_frame
+{
+	display:inline-block;
+	vertical-align: top;
+	margin:auto 20px;
+}
+#group_right_frame
+{
+	display:inline-block;
+	vertical-align: top;
+	width:600px;
+	height:600px;
+	overflow: auto;
+	margin:auto 20px;
+}
+#my_group_frame,#my_group_frame_lead,#group_right_frame
+{
+	border:1px solid #4682B4;
+	border-radius:6px;
+	margin: auto auto 20px auto;
+}
+#my_group_title,#right_frame_title
+{
+	background-color: #4682B4;
+	color:#fff;
+	width:200px;
+	border-radius:5px 5px 0px 0px;
+}
+
+#right_frame_title
+{
+	width:600px;
+}
+.group_item
+{
+	background-color: #fff;
+	padding:3px auto;
+	border:1px solid #ccc;
+	border-width:0px 0px 1px 0px;
+	margin:auto auto 5px auto;
+}
+.group_items_list
+{
+	min-height:100px;
+	max-height:300px;
+	border-radius:0px 0px 5px 5px;
+	overflow-y: auto;
+}
+.group_items_list_height
+{
+	min-height:100px;
+	max-height:200px;
+}
+#teamwork_pic
+{
+	width:600px;
+	height:575px;
+	overflow: hidden;
+	border-radius:5px;
+}
+#tw_img
+{
+	height:650px;
+}
+.grey_out
+{
+	margin:1px 3px;
+	color:#bbb;
+	font-weight: 600;
+}
+.group_items_list a:link,.group_items_list a:visited
+{
+	color:#4682B4;
+	text-decoration: none;
+}
+.speaker_a:link,.speaker_a:visited
+{
+	color:#4682B4;
+	text-decoration: none;
+}
+</style>
+<div id='group_manage_frame'>
+	<div id='group_left_frame'>
+		<div id="my_group_frame">
+			<div id='my_group_title'>
+			团队成员配置
+			</div>
+			<div class='group_items_list'>
+			{% if groups %}
+				{% for group in groups %}
+				<div id='item_{{group.groupname}}' class='group_item' data-groupname='{{group.groupname}}' data-md='groupsee'>
+				{{group.cnname}}
+				</div>
+				{% endfor %}
+			{% else %}
+			{% endif %}
+			</div>
+		</div>
+
+		<div id="my_group_frame_lead">
+			<div id='my_group_title'>
+			团队聊
+			</div>
+			<div class='group_items_list group_items_list_height'>
+			{% if groups %}
+				{% for group in groups %}
+				<div class='group_item' data-groupname='{{group.groupname}}' data-md='groupchat'>
+				{{group.cnname}}
+				</div>
+				{% endfor %}
+			{% else %}
+			{% endif %}
+			</div>
+		</div>
+		
+		<div class='group_items_list'><a href='/groupinfo'>新建群组</a></div>
+	</div>
+	<div id='group_right_frame'>
+		<div id='right_frame_title'>
+		团队中心
+		</div>
+		<div id='group_aj'><div id='teamwork_pic'><img id='tw_img' src='/static/img/teamwork.jpg'></img></div></div>
+	</div>
+</div>
+<script type='text/javascript'>
+function stoprefresh()
+{
+	$(window).unbind()
+	try{
+		clearInterval(chatinterval)
+		}
+		catch(exc)
+		{}
+}
+function gchat(gchat_owner,chat)
+//Input gchat
+{
+	var gchat_input={}
+	gchat_input.gchatowner=gchat_owner
+	gchat_input.chat=chat
+	gchat_input.md="chatin"
+	$.ajax({
+		data:gchat_input,
+		async:true,
+		method:"GET",
+		url:"/gchat_aj",
+		success:function(data){
+		},
+	})
+}
+function c_s_b()
+{
+	// Scroll to bottom
+	var sheight=$("#chat_ctt_area").get(0).scrollHeight;
+				$("#chat_ctt_area").scrollTop(sheight);
+}
+function c_s_u()
+{
+	// Scroll to top
+	var sheight=$("#chat_ctt_area").get(0).scrollHeight*(-1);
+				$("#chat_ctt_area").scrollTop(sheight);
+}
+function gchat_backward(gchatowner,beforetime,backid,skippages,limit)
+{
+	// Export 20 entries before a certain time
+	// Use this to load when open gchat initially
+	// And scroll up to get chat history
+	var skippages=arguments[3] ? arguments[3]:0;
+	var limit=arguments[4] ? arguments[4]:20;
+	var aj_input={}
+	aj_input.md="gchat_backward"
+	aj_input.gchatowner=gchatowner
+	aj_input.beforetime=beforetime
+	aj_input.skippages=skippages
+	aj_input.limit=limit
+	$.ajax({
+		url:"/gchat_aj",
+		async:true,
+		method:"GET",
+		data:aj_input,
+		success:function(data){
+			if(backid==false)
+			{
+				if (data=='没有更早记录了')
+					{
+						$("#history20").unbind()
+						$("#history20").css("color","#ccc")
+					}
+				$("#chat_ctt_area").prepend(data)
+			}
+		}
+	})
+}
+function gchat_forward(gchatowner)
+{
+	if(!$("#chat_ctt_area"))
+	{
+		stoprefresh();
+		exit();
+	}
+	var rtdiv=document.createElement("div")
+	rtdiv.className="gchat_block"
+	var fc=parseInt($("#chat_ctt_area").data("forwardcount"))+1
+	$("#chat_ctt_area").data("forwardcount",fc)
+	rtdiv.id="rt_block_"+fc
+	
+	var sincetime=$("#chat_ctt_area").data("sincetime")
+	var aj_input={}
+	aj_input.md="gchat_forward"
+	aj_input.gchatowner=gchatowner
+	aj_input.sincetime=sincetime
+	$.ajax({
+		url:"/gchat_aj",
+		async:true,
+		method:"GET",
+		data:aj_input,
+		success:function(data){
+			//$(".sincetime_refresh").remove()
+			if(data=="")
+			{}
+			else
+			{
+			$(rtdiv).html(data)
+			$("#chat_ctt_area").append(rtdiv)
+			var newtime=$(".sincetime_refresh:last").text()
+			if (newtime.length>2)
+				{
+				$("#chat_ctt_area").data("sincetime",newtime)
+				}
+			c_s_b()
+			}
+		}
+	})
+}
+function groupsee_run(groupname,md)
+{
+	stoprefresh()
+		var grp_input={}
+		grp_input.groupname=groupname
+		grp_input.md=md
+		$.ajax({
+			url:"/group_aj",
+			data:grp_input,
+			method:"GET",
+			async:true,
+			success:function(data){
+				$("#group_aj").html(data)
+			}
+		})
+}
+$(document).ready(function(){
+	$(".group_item").click(function(){
+		// The click effect
+		$(".group_item").css("background-color","#fff")
+		$(".group_item").css("box-shadow","0px 0px 0px #fff")
+		$(this).css("background-color","#ddd")
+		$(this).css("box-shadow","0px 0px 5px -3px #4682B4 inset")
+		var gname=$(this).data("groupname")
+		var md=$(this).data("md")
+		groupsee_run(gname,md)
+	})
+{% if backjs %}
+// see the groupsee set in qs
+groupsee_run("{{backjs}}","groupsee")
+var initialitem=document.getElementById("item_"+"{{backjs}}")
+$(initialitem).css("background-color","#ddd")
+$(initialitem).css("box-shadow","0px 0px 5px -3px #4682B4 inset")
+{% endif %}
+})
+
+</script>

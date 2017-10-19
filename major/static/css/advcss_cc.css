@@ -1,0 +1,107 @@
+/* 
+CSS File 
+Loaded on the advcss_cc.js page
+*/
+button
+{
+	color:#4169E1;
+	background-color: #FFF;
+	border:0px solid #FFF;
+	border-radius:5px;
+	padding:3px 10px;
+	margin:3px;
+}
+#user_input_jsonp
+{
+	background-color:#FFF;
+	border:0px solid #FFF;
+	border-radius:3px;
+	padding:5px;
+}
+.jsonp_workrow_userid_line
+{
+	font-size:15px;
+	background-color:#00BFFF;
+	border-radius:3px; 
+}
+.see_z_btn
+{
+	vertical-align: top;
+}
+.topcontrolbar
+{
+	
+	background-color:#1F6589;
+	padding:10px;
+	box-shadow:0px 0px 5px #aaa inset;
+	height:auto;
+	width:100%;
+	border-radius:5px;
+}
+.worktd_view
+{
+	background-color:#87CEFA;
+	font-size:15px;
+	border-radius: 5px
+	padding:1px 10px;
+	margin:1px;
+	font-family:微软雅黑,Tahoma,Arial;
+}
+.replicate_input
+{
+	width:60px;
+	border:2px solid #2E8B57;
+	border-width:0px 0px 2px 0px;
+	border-radius:15px;
+	background-color:#FFF;
+	padding:5px;
+	margin:2px 5px;
+	text-align: center;
+}
+#contact_json_penal,.topcontrolrgt
+{
+	width:480px;
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	font-size:15px;
+	font-family:微软雅黑,Tahoma,Arial;
+}
+[name^="userProdAccessList"],[name^="is"],[name$="Flag"],[name="sex"],[name^="start"]
+{
+	width:20px;
+	font-size:12px;
+}
+[name$='saleTypeId'],[name$='Old']
+{
+	display:none;
+}
+#user_check_btn, #user_rm_btn
+{
+	display:inline-block;
+	width:100px;
+	padding:3px;
+	background-color: #00BFFF;
+	color:#FFF;
+	font-size:15px;
+	font-weight:800;
+	text-align:center;
+	border-radius:50px;
+}
+.alert_line
+{
+	color:#FF4500;
+	font-size:15px;
+	font-family:微软雅黑,Tahoma,Arial;
+	box-shadow: 0px-5px 10px #FF4500;
+}
+.gw /*Green Words*/
+{
+	color:#2E8B57;
+	font-size:15px;
+}
+.see_z_btn
+{
+	width: 100px;
+	height:25px;
+}

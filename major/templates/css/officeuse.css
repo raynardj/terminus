@@ -1,0 +1,117 @@
+{% load static %}
+.body_item
+{
+	padding:5px 50px;
+	margin:10px 10px;
+}
+table input
+{
+	width:380px;
+	border:1px solid #ccc;
+	border-width: 0px 0px 1px 0px;
+	border-radius: 0px;
+	color:#4682B4;
+	background-color: hsla(0,50%,50%,0);
+	font-size:15px;
+	font-family:微软雅黑,Tahoma,Arial;
+	padding:5px 10px;
+	margin:3px 15px;
+	text-align:center;
+}
+
+form
+{
+	text-align:center;
+}
+
+.mgtable_
+{
+	background-color: #ddd;
+	border-radius: 3px;
+}
+
+.mg_th_class
+{
+	background-color: #555;
+	color:#fff;
+	padding:5px 2px;
+}
+
+.mg_td_class
+{
+	background-color: #eee;
+	padding:2px 5px;
+}
+th
+{
+	font-weight:400;
+}
+.auto_grab_showhide
+{
+	background-color:#4682B4;
+	color:#FFF;
+	width:200px;
+	font-size: 20px;
+	padding:5px;
+	border:1px solid #fff;
+	border-radius:5px;
+}
+label
+{
+	color:#aaa;
+}
+[for=id_stburl]
+{
+	color:#4682B4;
+	font-weight: 600;
+
+}
+.try_grab
+{
+	background-color:#4682B4;
+	color:#FFF;
+	width:100px;
+	padding:5px;
+	border:1px solid #fff;
+	border-radius:5px;
+}
+body
+{
+	background:url('{% static "img/shoppic.jpg" %}') no-repeat #fff;
+	background-position:bottom right;
+	background-attachment: fixed;
+}
+#id_stburl
+{
+	
+	color:#4682B4;
+	background-color: hsla(0,50%,50%,0);
+	font-size:15px;
+	font-family:微软雅黑,Tahoma,Arial;
+	margin:3px 15px;
+	text-align:center;
+	border:2px solid #4682B4;
+	border-radius:30px;
+	padding:10px;
+	width:430px;
+}
+.id_submitbtn
+{
+	padding:5px;
+	font-size:20px;
+	width:100px;
+	border-width:0px;
+	border-color:#4682B4;
+	border-radius:6px;
+	color:#fff;
+	background-color:#4682B4;
+}
+details
+{
+	color:#aaa;
+}
+.fill_help_p
+{
+	display:none;
+	opacity:0.45;
+}

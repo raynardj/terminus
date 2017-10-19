@@ -1,0 +1,47 @@
+<style type="text/css">
+.process_list_link
+{
+	display: inline-block;
+	width:200px;
+	height:35px;
+	color:#4682B4;
+	font-size: 16px;
+}
+a:link
+{
+	text-decoration: none;
+	color:#4682B4;
+}
+a:visited
+{
+	text-decoration: none;
+	color:#4682B4;
+}
+
+</style>
+
+<div style='margin:10px auto;'>
+	<div class='process_list_link'>
+	<a href='/process?list=sf'>我递交的申请</a>
+	</div>
+	<div class='process_list_link'>
+	<a href='/process?list=await'>待我审批
+	{% if await_count > 0 %}
+	({{ await_count}})
+	{% endif %}
+	</a>
+	</div>
+	<div class='process_list_link'>
+	<a href='/process?list=review'>与我有关的申请</a>
+	</div>
+</div>
+<script type='text/javascript'>
+$(".process_list_link").hover(function(){
+	$(this).css("text-shadow","0px 0px 3px #09c")
+	$(this).css("box-shadow","0px 10px 10px -10px #09c")
+})
+$(".process_list_link").mouseleave(function(){
+	$(this).css("text-shadow","0px 0px 0px #09c")
+	$(this).css("box-shadow","0px 0px 0px 0px #fff")
+})
+</script>

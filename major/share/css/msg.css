@@ -1,0 +1,82 @@
+@charset "utf-8";
+/* CSS Document */
+body
+{
+      text-align:left;
+	  background-color:#09C;
+	  color:#FFF;
+	  font-family:微软雅黑,Tahoma,Arial;
+	  margin:0px;
+	  padding:0px;
+}
+#msg_head
+{
+	padding:20px 50px;
+	font-size:30px;
+}
+#msg_body
+{
+	padding:20px 70px;
+	background-color:#FFF;
+	color:#09C;
+	min-height:400px;
+	font-size:20px;
+}
+#msg_links
+{
+	padding:20px 50px;
+}
+.link_a:link
+{
+	color:#09C;
+	background-color:#fff;
+	text-decoration:none;
+}
+.link_a:visited
+{
+	color:#09C;
+	background-color:#fff;
+	text-decoration:none;
+}
+.link_div
+{
+	color:#09C;
+	background-color:#fff;
+	font-weight:900;
+	display:inline-block;
+	text-align:center;
+	height:24px;
+	padding:5px;
+	width:160px;
+	border: 1px solid #09C;
+	border-radius:5px;
+	margin:10px auto;
+}
+
+input
+{
+	color:#09C;
+	background-color:#fff;
+	font-family:微软雅黑,Tahoma,Arial;
+	font-size:20px;
+	border: 3px solid #09C;
+	border-radius:5px;
+	text-align:center;
+	padding:3px;
+}
+label
+{
+	color:#09C;
+	 font-family:微软雅黑,Tahoma,Arial;
+	 font-size:15px;
+}
+table
+{
+	color:#09C;
+}
+.sep_dashed
+{
+	border:2px dashed #09C;
+	border-width:0px 0px 2px 0px ;
+	box-shadow:0px 0px 0px  #fff;
+}

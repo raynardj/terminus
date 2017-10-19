@@ -1,0 +1,99 @@
+<table class="mgtable_{{class_extra}}">
+<tr style="border:dashed #fff;border-width:0px 0px 1px 0px;">
+	{% for field_name,label_name in label_dict.iteritems %}
+		<th class="{{thclass}} mgtable_1st_row">{{label_name|safe}}</th>
+	{% endfor %}
+</tr>
+{% for k,tbrow in table_rows.iteritems %}
+{{tbrow}}
+{% endfor%}
+</table>
+<script type='text/javascript'>
+$(document).ready(function(){
+$(".tablebook_aj_btn").hover(function(){
+	$(this).css("box-shadow","0px 0px 5px #555 inset")
+})
+$(".tablebook_aj_btn").mouseleave(function(){
+	$(this).css("box-shadow","0px 0px 3px #777")
+})
+
+$(".row_preview").click(function(){
+	var ipt={}
+	ipt=$(this).data();
+	ipt.type='detail';
+	$.ajax({
+		url:'/tablebook_aj',
+		data:ipt,
+		method:"GET",
+		async:false,
+		success:function(data)
+		{
+			$(".detailrow").hide()
+			$("#"+ipt.processid+"_detailrow").show(300)
+			$("#"+ipt.processid+"_process_detail_aj").html(data)
+		}
+	})
+	})
+$(".detail_hide_btn").hover(function(){$(this).css("box-shadow","0px 0px 5px #555 inset")})
+$(".detail_hide_btn").mouseleave(function(){$(this).css("box-shadow","0px 0px 0px #555")})
+$(".detail_hide_btn").click(function(){
+	$("#"+$(this).data("processid")+"_detailrow").hide(300)
+})
+// Tablebook Ajax Button
+// fetch data from $(this).data
+$(".tablebook_aj_btn").click(function(){
+	var ipt={};
+	ipt=$(this).data();
+	ipt.db="foundation";
+	var remark=$("#"+ipt.processid+"_remark_input").val()
+	$("#"+ipt.processid+"_statustd").html("请刷新")
+	.css("color","#09c")
+	$("#"+ipt.processid+"_actiontd").html("请刷新")
+	.css("color","#09c")
+	if(remark!="")
+	{ipt.remark=remark}
+	$.ajax({
+		url:'/tablebook_aj',
+		data:ipt,
+		method:"GET",
+		async:false,
+		success:function(data){
+			$("#"+ipt.processid+"_ajreturn").html(data)
+			$("#"+ipt.processid+"_remark_row").hide(300)
+			$("#"+ipt.processid+"_detailrow").hide(300)
+		}
+	})
+})
+$(".tablebook_remark_btn").click(function(){
+	var processid=$(this).data("processid");
+	$("#"+processid+"_remark_row").show(300)
+})
+$(".tablebook_remark_hide").click(function(){
+	var processid=$(this).data("processid");
+	$("#"+processid+"_remark_row").hide(300)
+})
+$(".sf_remove_btn").click(function(){
+	var input_aj={}
+	// It's actually kill the process
+	input_aj.type="killprocess"
+	input_aj.processid=$(this).data("processid")
+	var rmvbtn=this
+	$.ajax({
+		url:"/tablebook_aj",
+		data:input_aj,
+		method:"GET",
+		async:true,
+		success:function(data){
+			if (data=="revoked")
+			{
+				$(rmvbtn).html("已撤回，轻刷新")
+			}
+			else
+			{
+				$(rmvbtn).html("重试撤回")
+			}
+		}
+	})
+})
+})
+</script>

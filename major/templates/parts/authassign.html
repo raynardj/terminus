@@ -1,0 +1,228 @@
+<style>
+.setvalue_input,.setkey_input,.settask_input,.tier_input,.pushval_input
+{
+	font-family:微软雅黑,Tahoma,Arial;
+	width:50px;
+	padding:5px;
+	margin:5px;
+	border:0px solid #4682b4;
+	border-radius:3px;
+	background-color: #ccc;
+	text-align:center;
+}
+.settask_input,.pushval_input
+{
+	width:120px;
+}
+table
+{
+	margin:auto;
+	border-radius: 5px;
+}
+tr
+{
+	height:50px;
+	background-color: #eee;
+	border-radius:5px;
+}
+button
+{
+	font-family:微软雅黑,Tahoma,Arial;
+	background-color: #4682B4;
+	color:#fff;
+	padding:3px 10px;
+	border:0px solid #fff;
+	border-radius: 3px;
+}
+</style>
+<div>
+<h3>权限修改后台</h3>
+<div>
+<span id='uidkey_span'>{{uidkey}}</span>:
+<span id='uidval_span'>{{mail}}{{groupname}}</span>
+</div>
+<div>
+{{cnname}}的权限
+</div>
+<table>
+{% for taskname,taskctt in auth.iteritems %}
+<tr>
+<td></td>
+<td style='width:100px'>{{taskname}}</td>
+<td>
+{% for aukey,auval in taskctt.iteritems %}
+<div><strong>{{aukey}}</strong>:  {{auval}}<input type='text' class='setvalue_input'>
+<button class='auth_modify' data-setkey='auth.{{taskname}}.{{aukey}}'>
+修改
+</button>
+</div>
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+<tr>
+<td>新增权限</td>
+<td><input type='text' class='settask_input' placeholder="输入任务名称"></td>
+<td><input type='text' class='setkey_input'>:<input type='text' class='setvalue_input'>
+<button class='auth_insert' data-setkey='auth.{{taskname}}.{{aukey}}'>新增</button>
+</td>
+</tr>
+</table>
+<div>等级:</div>
+<table>
+{% if utier %}
+<tr><td>用户等级</td><td>{{utier}}</td></tr>
+{% elif gtier %}
+<tr><td>群组等级</td><td>{{gtier}}</td></tr>
+{% endif %}
+<tr>
+	<td>
+	新等级:<input type='text' class='tier_input' id='newtier_input'>
+	</td>
+	<td>
+	<button class='tier_modify'>修改</button>
+	</td>
+</tr>
+</table>
+
+<div>下载范围</div>
+<table>
+{% if dscope %}
+{% for group in dscope %}
+<tr>
+	<td>{{group}}</td>
+	<td>
+	<button class='pull_btn' data-pullkey='dscope' data-pullval='{{group}}'>剔除</button>
+	</td>
+</tr>
+{% endfor %}
+{% endif %}
+<tr>
+	<td><input type='text' placeholder="添加新群组" class='pushval_input'></td>
+	<td><button class='push_key_btn' data-pushkey='dscope'>新增</button></td>
+</tr>
+
+</table>
+</div>
+<script type='text/javascript'>
+function grab_condition()
+{
+	var dt={}
+	dt.uidkey=$("#uidkey_span").html()
+	dt.uidval=$("#uidval_span").html()
+	return dt
+}
+$(document).ready(function(){
+	$(".auth_modify").click(function(){
+		var dt=grab_condition()
+		dt.setkey=$(this).data("setkey")
+		dt.setval=$(this).parent("div").find("input").val()
+		if(dt.setval=="")
+		{}
+		else
+		{
+		$.ajax({
+			url:'/authassign',
+			method:'GET',
+			async:true,
+			data:dt,
+			success:function(data){
+				setTimeout(function(){
+				window.location.href='/authassign?'+dt.uidkey+'='+dt.uidval
+				},200)
+			}
+		})
+		}
+	})
+	$(".auth_insert").click(function(){
+		var dt=grab_condition()
+		dt.setval=$(this).parents("tr").find(".setvalue_input").val()
+		var task=$(this).parents("tr").find(".settask_input").val()
+		var aukey=$(this).parents("tr").find(".setkey_input").val()
+		dt.setkey=("auth."+task+"."+aukey)
+		if(dt.setval=="")
+		{}
+		else if(task==""||aukey=="")
+		{}
+		else
+		{
+		$.ajax({
+			url:'/authassign',
+			method:'GET',
+			async:true,
+			data:dt,
+			success:function(data){
+				setTimeout(function(){
+				window.location.href='/authassign?'+dt.uidkey+'='+dt.uidval
+				},200)
+			}
+		})
+		}
+	})
+	$(".push_key_btn").click(function(){
+		var dt=grab_condition()
+		dt.pushkey=$(this).data("pushkey")
+		dt.pushval=$(this).parents("tr").find(".pushval_input").val()
+		if(dt.pushval=="")
+		{}
+		else
+		{
+		$.ajax({
+			url:'/authassign',
+			method:'GET',
+			async:true,
+			data:dt,
+			success:function(data){
+				setTimeout(function(){
+				window.location.href='/authassign?'+dt.uidkey+'='+dt.uidval
+				},200)
+			}
+		})
+		}
+	})
+	$(".pull_btn").click(function(){
+		var dt=grab_condition()
+		dt.pullkey=$(this).data("pullkey")
+		dt.pullval=$(this).data("pullval")
+		$.ajax({
+			url:'/authassign',
+			method:'GET',
+			async:true,
+			data:dt,
+			success:function(data){
+				setTimeout(function(){
+				window.location.href='/authassign?'+dt.uidkey+'='+dt.uidval
+				},200)
+			}
+		})
+	})
+	$(".tier_modify").click(function(){
+		var dt=grab_condition();
+		if(dt.uidkey=="groupname")
+		{
+			dt.setkey="gtier";
+		}
+		else if(dt.uidkey=="mail")
+		{
+			dt.setkey="utier";
+		}
+		dt.setval=$("#newtier_input").val();
+		if(dt.setval=="")
+		{}
+		else
+		{
+		$.ajax({
+			url:'/authassign',
+			method:'GET',
+			async:true,
+			data:dt,
+			success:function(data){
+				setTimeout(function(){
+				window.location.href='/authassign?'+dt.uidkey+'='+dt.uidval
+				},200)
+			}
+		})
+		}
+	})
+})
+</script>

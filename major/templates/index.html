@@ -1,0 +1,242 @@
+{% load static %}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<style type="text/css" >
+@import url('{%static "css/major_index.css"%}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>[{{ po_cn }}]的主页-Terminus Mark II</title>
+</head>
+
+<body>
+
+{{ userb }}
+{% csrf_token %}
+<div>
+{{testthing}}
+<div id='index_left'>
+	<div id='page_owner_frame'>
+		<div id='po_cn' class='po_item'>{{ po_cn }}</div>
+		
+		<div id='po_gtiers' class='po_item'>
+			{% for k,tierlevel in gtiers.iteritems %}
+			{% for tiergs in tierlevel %}
+			<a href='/group?groupsee={{tiergs.groupname}}' terget='_blank' style='color:#1D4A80'>{{ tiergs.cnname }}</a>
+			<br>
+			{% endfor %}
+			{% endfor %}
+		</div>
+		<div id='po_mail' class='po_item'>{{ wallowner }}</div>
+	</div>
+	<div id='left_links'>
+		<div class='left_link_title'>常用</div>
+		<div class='left_link'><a class="left_link_a" href='/officeuse'>行政领用</a></div>
+		<div class='left_link'><a class="left_link_a" href='/group'>我的团队</a></div>
+		<div class='left_link_title'>申请单管理</div>
+		<div class='left_link'><a class="left_link_a" href='/process?list=sf'>我递交的申请</a></div>
+		{% if await_count %}
+		<div class='left_link'><a class="left_link_a" href='/process?list=await'>待{{visitorcn}}审核的申请
+		
+		<strong>({{ await_count }})</strong>
+		
+		</a></div>
+		{% endif %}
+		<div class='left_link'><a class="left_link_a" href='/download'>下载表单数据</a></div>
+		<div class='left_link'><a class="left_link_a" href='/download?loadback=yes'>回传数据</a></div>
+	</div>
+</div>
+
+<div id='wall_frame'>
+{{backmsg}}
+	<div id='wall_input_frame'>
+	<input type='text' placeholder='留言' id='wall_input'>
+	<div id='wall_submit' data-wallowner='{{ wallowner }}'>留言</div>
+	<div id='wall_private_check' title='不想写在墙上？发私信好了'>私信<input id='private_checkbox' type='checkbox'></div>
+	</div>
+	<div id='wall_entries'>
+		<div id='wall_page'>
+			留言翻页: <input id='wall_page_changer' type='number' min='1' max='{{wall_page_max}}' value="1">
+		</div>
+		<div id='wall_written'>
+
+		</div>
+	</div>
+</div>
+</body>
+<!-- <script type='text/javascript' src='{%static "js/majorind.js"%}'></script> -->
+
+<script type='text/javascript'>
+	//Wall btn clicks
+	function remove_brick()
+	{
+		$(".brick_remove_btn").click(function(){
+			var brickid=$(this).data("brickid")
+			var ajd={}
+			ajd.md='remove_brick'
+			ajd.bid=brickid
+			$.ajax({
+				url:'/index_aj',
+				method:'GET',
+				data:ajd,
+				async:true,
+				success:function(data){
+					if(data=='brick_removed')
+					{
+						brickid="brick_"+brickid
+						$("#"+brickid).remove()
+					}
+				}
+			})
+		})
+	}
+function reply_brick()
+{
+	$(".brick_reply_btn").click(function(){
+		if($(".wall_replybox"))
+			{$(".wall_replybox").remove()}
+		var rpldata=$(this).data();
+		var replybox=document.createElement("div");
+		var replylabel=document.createElement("span");
+		var replyipt=document.createElement("input");
+		var replybtn=document.createElement("div")
+		$(replylabel).html("@"+rpldata.fromcn+":");
+		replylabel.className="wall_replylabel";
+		replybtn.className="wall_replybtn"
+		$(replybtn).data(rpldata)
+		$(replybtn).click(function(){
+			var ajdt={}
+			ajdt.writes=$(this).parents(".wall_replybox").find("input").val()
+			if (ajdt.writes!="")
+			{
+			ajdt.md='wallin';
+			ajdt.wallowner=$(this).data("wallowner")
+			ajdt.tobrick=$(this).data("brickid")
+			ajdt.replyto=$(this).data("from")
+			ajdt.replytocn=$(this).data("fromcn")
+			$.ajax({
+				url:"/index_aj",
+				method:"GET",
+				async:true,
+				data:ajdt,
+				success(){
+					setTimeout(function(){
+					load_wall(ajdt.wallowner)
+					},300)
+				}
+			})
+			}
+			else
+			{}
+		})
+		$(replybtn).html("确认")
+		replyipt.placeholder="留言";
+		replybox.className="wall_replybox";
+		$(replybox).append(replylabel);
+		$(replybox).append(replyipt);
+		$(replybox).append(replybtn);
+		$(this).parents(".wall_brick").append(replybox)
+	})
+}
+function brick_color_change()
+{
+	$(".wall_brick").hover(function(){
+		$(this).find(".brick_remove_btn,.brick_reply_btn").css("color","#1D4A80");
+	})
+	$(".wall_brick").mouseleave(function(){
+		$(this).find(".brick_remove_btn,.brick_reply_btn").css("color","#ccc");
+	})
+}
+function load_wall(wallowner,skippages)
+{
+	var aj_input={}
+	aj_input.wallowner=wallowner
+	aj_input.skippages=skippages
+	aj_input.md="wall"
+	$.ajax({
+		url:"index_aj",
+		method:"GET",
+		async:true,
+		data:aj_input,
+		success:function(data)
+		{
+			$("#wall_written").html(data)
+			setTimeout(function(){
+				remove_brick();
+				brick_color_change();
+				reply_brick()
+			},300)
+		}
+	})
+}
+$(document).ready(function(){
+	// load the wall record
+	load_wall("{{ wallowner }}",0);
+	// Click the submit button on wall
+
+	$("#wall_submit").click(function(){
+		var aj_input={}
+		aj_input.md="wallin"
+		aj_input.csrfmiddlewaretoken=$("input:hidden").val()
+		var pri_cb=document.getElementById("private_checkbox")
+		if(pri_cb)
+		{
+		if(pri_cb.checked==true)
+			{
+				aj_input.wallowner="private"
+				aj_input.to=$(this).data("wallowner")
+			}
+		else
+			{
+			aj_input.wallowner=$(this).data("wallowner")
+			}
+		}
+		else
+		{
+			aj_input.wallowner=$(this).data("wallowner")
+		}
+		aj_input.writes=$("#wall_input").val()
+		$("#wall_input").val("")
+		$.ajax({
+			url:"index_aj",
+			data:aj_input,
+			async:true,
+			method:"GET",
+			success:function(data){
+				$("#wall_written").html(data)
+			}
+		})
+		setTimeout(function(){
+			load_wall("{{ wallowner }}",0);
+		},300)
+	})
+	$('#wall_input').bind('keyup', function(event) {
+		if (event.keyCode == "13") {
+			// Press Enter
+//			alert($("#chat_ctt_area").data("sincetime"))
+			if($(this).val()!="")
+			{
+			$("#wall_submit").trigger("click")
+			}
+		}
+	})
+	//change the page number
+	$("#wall_page_changer").change(function(){
+		var pageskips=$(this).val()-1
+		load_wall("{{ wallowner }}",pageskips)
+	})
+	$("#wall_submit").hover(function(){
+		$(this).css("background-color","#EEE")
+	})
+	$("#wall_submit").mouseleave(function(){
+		$(this).css("background-color","#CCC")
+	})
+
+	$(".left_link_a").hover(function(){$(this).css("opacity","0.8")})	
+	$(".left_link_a").mouseleave(function(){$(this).css("opacity","1")})
+
+
+})
+</script>
+</html>

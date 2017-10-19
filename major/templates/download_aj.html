@@ -1,0 +1,127 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<style type="text/css" >
+@import url('{%static "css/major_download.css"%}');
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>下载数据</title>
+</head>
+<body>
+{{ userb }}
+<div id='page_center_column'>
+	<h2>行政领用数据</h2>
+
+    开始时间:{{datestart}}
+    <br>
+    结束时间:{{dateend}}
+    <br>
+    <div id='dl_btn'><a href='{{dl_path}}'>下载数据</a></div>
+    <br>
+    <table>
+    <!-- Head Row -->
+    <tr class='dl_1st_row'>
+    <td>
+    领用单号
+    </td>	
+    <td>
+    申请人
+    </td>
+    <td>
+    提交部门
+    </td>
+    <td>
+    申请时间
+    </td>
+    <td>
+    申请物品
+    </td>
+    <td>
+    单价
+    </td>
+    <td>
+    数量
+    </td>    
+    <td>
+    总价
+    </td>
+    <td>
+    不含税价
+    </td>
+    <td>
+    估计成本
+    </td>
+    </tr>
+    <!-- Data Rows -->
+    {% for dline in dl_list %}
+    <tr>
+    <td>
+    {{dline.id}}
+    </td>
+    <td>
+    {{dline.cnname}}
+    </td>
+    <td>
+    {{dline.gtiers}}
+    </td>
+    <td>
+    {{dline.tm}}
+    </td>
+    <td>
+    {{dline.itemname}}
+    </td>
+    <td>
+    {{dline.price}}
+    </td>
+    <td>
+    {{dline.qtt}}
+    </td>    
+    <td>
+    {{dline.ttl_price}}
+    </td>
+    <td>
+    {{dline.vat_ex}}
+    </td>
+    <td>
+    {{dline.est_cost}}
+    </td>
+    </tr>
+    {% endfor %}
+   <!-- Sum Row -->
+    <tr class='dl_last_row'>
+    <td>
+    
+    </td>
+    <td>
+    
+    </td>
+    <td>
+    
+    </td><td>
+    
+    </td>
+    <th>
+    总计
+    </th>
+    <td>
+    
+    </td>
+    <th>
+    {{sum_qtt}}
+    </th>    
+    <th>
+    {{sum_price}}
+    </th>
+    <th>
+    {{sum_vat_ex}}
+    </th>
+    <th>
+    {{sum_est_cost}}
+    </th>
+    </tr>
+    </table>
+<br>
+</div>
+</body>
+</html>

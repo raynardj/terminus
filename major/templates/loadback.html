@@ -1,0 +1,36 @@
+<style type='text/css'>
+#page_center_column
+{
+	width:1000px;
+	margin:0px auto;
+	background-color: #fff;
+	color:#4682B4;
+}
+input
+{
+	padding:5px;
+}
+.btn
+{
+	width:100px;
+	text-align: center;
+	padding:5px;
+	background-color: #4682B4;
+	color:#fff;
+	border:0px solid #fff;
+	border-radius:5px;
+}
+
+</style>
+<form method='POST' action='/download_aj' enctype="multipart/form-data">
+<div id='page_center_column'>
+<table>
+{{upform.as_table}}
+<tr>
+	<td colspan=2 style='text-align:center'>
+	<input class='btn' type="submit" value='回传' />
+	</td>
+</tr>
+</table>
+{% csrf_token %}
+</div></form>

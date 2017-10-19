@@ -1,0 +1,445 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src='{% static "js/echarts.js" %}'></script>
+<style type="text/css">
+	body
+	{
+		margin:0px;
+		padding: 0px;
+		background-color: #272E2A;
+		color:#FFF;
+		text-align:center;
+		font-family:微软雅黑,Tahoma,Arial;
+	}
+	#page_title
+	{
+		font-weight:200;
+		font-size:50px;
+	}
+	.legends
+	{
+		font-weight:200;
+		font-size:20px;
+	}
+	#ar_monthly_aging
+	{
+		text-align:center;
+		margin:auto;
+		width:600px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	#ar_monthly_aging table,#aging_curve_df table
+	{
+		background-color: #FFF;
+		border-spacing: 0px;
+		border:0;
+		margin:auto;
+	}
+	#ar_monthly_aging td,#aging_curve_df td
+	{
+		margin:0px;
+		border:0px solid #FFF;
+		font-weight: 200;
+		color:#FFF;
+		font-size:15px;
+		background-color: #2A4635;
+	}
+	.dataframe th,#aging_curve_df th
+	{
+		background-color:#272928;
+		color:#FFF;
+		padding:5px 15px;
+		font-weight:200;
+		white-space: nowrap;
+		/*border-radius:3px;*/
+	}
+	#center_frame
+	{
+		padding:30px 100px;
+	}
+	#chart_ar_month_total
+	{
+		display:inline-block;
+		width:450px;
+		height:300px;
+		vertical-align: top;
+		padding:20px;
+		margin:30px;
+		border-radius:30px;
+		box-shadow:0px 0px 10px #000 inset;
+	}
+	#chart_ar_month_gt0,#chart_ar_month_gt90,#chart_ar_month_gt180
+	{
+		width:340px;
+		height:300px;
+		padding:15px;
+		margin:15px;
+		border-radius:15px;
+		display: inline-block;
+		vertical-align: top;
+		box-shadow:0px 0px 10px #000 inset;
+	}
+	#aging_curve_df
+	{
+		width:1180px;
+		margin:50px auto;
+		overflow-x:auto; 
+	}
+	#aging_curve
+	{
+		height:500px;
+		width:1180px;
+		margin:50px auto;
+		padding:30px 0px;
+		border-radius:15px;
+	}
+	.page_btn
+	{
+		color:#FFF;
+		background-color: #2A4635;
+		display: inline-block;
+		vertical-align: top;
+		width:160px;
+		padding:15px;
+		border-radius: 2px;
+		margin:15px;
+	}
+	.page_btn a:link,.page_btn a:visited
+	{
+		color:#FFF;
+		text-decoration: none;
+		font-weight: 200;
+	}
+	#backmsg
+	{
+		color:red;
+		font-size: 20px;
+	}
+</style>
+	<title>Unapplied Cash Report - Monthly (Terminus II)</title>
+</head>
+<body>
+{{userb}}
+<div id='backmsg'>{{backmsg}}</div>
+
+<h2 id='page_title'>Unapplied Cash Monthly Score Card</h2>
+<h2 id='page_title'>Year {{year}}, P{{month}}</h2>
+<div id='center_frame'>
+<div id='page_ptns'>
+	<div id='previous_btn' class='page_btn'>
+	<a id='previous_btn_a'>
+	Previous
+	</a>
+	</div>
+	<div id='next_btn' class='page_btn'>
+	<a id='next_btn_a'>
+	Next
+	</a>
+	</div>
+	<div id='otherside_btn' class='page_btn'>
+	<a id='otherside_btn_a'>
+	AR Report
+	</a>
+	</div>
+	<div id='recalc_btn' class='page_btn'>
+	<a id='recalc_btn_a'>
+	Recalculate
+	</a>
+	</div>
+</div>
+<div id='ar_monthly_aging'>
+<span class='legends'>In RMB '000</span>
+	{{pivot|safe}}
+</div>
+<div id='chart_ar_month_total'></div>
+<div>
+	<div id='chart_ar_month_gt0'></div>
+	<div id='chart_ar_month_gt90'></div>
+	<div id='chart_ar_month_gt180'></div>
+</div>
+<div id="aging_curve_df">{{chart.acdf|safe}}</div>
+<div id="aging_curve"></div>
+</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function pageload_ready(){
+		 var label_set={
+				    normal: {
+				        textStyle: {
+				        	color: 'rgba(255, 255, 255, 0.8)',fontSize:15},
+				        formatter: function(param) {
+                     			return param.name + ':\n' + Math.round(param.percent) + '%';
+                 			},
+				    }
+				}
+		 var labelLine_set={
+				    normal: {
+				        lineStyle: {color: 'rgba(255, 255, 255, 0.3)'}
+				    }
+				}
+		 var myChart_artotal = echarts.init(document.getElementById('chart_ar_month_total'));
+		 myChart_artotal.setOption({
+		 	backgroundColor:'#2A4635',
+		 	title:{
+		 		text:"Unapplied Cash Total",
+		 		subtext:"Unapplied Cash according to BU",
+		 		textStyle:{
+		 			color:'#FFF',
+		 		}
+		 	},
+		 	label: label_set,
+		 	labelLine:labelLine_set,
+		 	series:[{
+		 		name:'Unapplied Cash Total',
+		 		type:"pie",
+		 		radius:'55%',
+		 		roseType: 'angle',
+		 		data:{{chart.ar_month_total|safe}},
+		 	},
+		 	],
+		 })
+		 var myChart_gt0 = echarts.init(document.getElementById('chart_ar_month_gt0'));
+		 myChart_gt0.setOption({
+		 	backgroundColor:'#2A4635',
+		 	title:{
+		 		text:"Unapplied Cash >0 Days",
+		 		subtext:"Unapplied Cash according to BU >0",
+		 		textStyle:{
+		 			color:'#FFF',
+		 		}
+		 	},
+		 	label: label_set,
+		 	labelLine:labelLine_set,
+		 	series:[{
+		 		name:'Unapplied Cash >0',
+		 		type:"pie",
+		 		radius:'55%',
+		 		roseType: 'angle',
+		 		data:{{chart.ar_month_gt0|safe}},
+		 	},
+		 	],
+		 })
+		 var myChart_ar_gt90 = echarts.init(document.getElementById('chart_ar_month_gt90'));
+		 myChart_ar_gt90.setOption({
+		 	backgroundColor:'#2A4635',
+		 	title:{
+		 		text:"Unapplied Cash >90 Days",
+		 		subtext:"Unapplied Cash according to BU >90 days",
+		 		textStyle:{
+		 			color:'#FFF',
+		 		}
+		 	},
+		 	label: label_set,
+		 	labelLine:labelLine_set,
+		 	series:[{
+		 		name:'Unapplied Cash More Than 90 Days',
+		 		type:"pie",
+		 		radius:'55%',
+		 		roseType: 'angle',
+		 		data:{{chart.ar_month_gt90|safe}},
+		 	},
+		 	],
+		 })
+		 var myChart_ar_gt180 = echarts.init(document.getElementById('chart_ar_month_gt180'));
+		 myChart_ar_gt180.setOption({
+		 	backgroundColor:'#2A4635',
+		 	title:{
+		 		text:"Unapplied Cash >180 Days",
+		 		subtext:"Unapplied Cash according to BU >180 days",
+		 		textStyle:{
+		 			color:'#FFF',
+		 		}
+		 	},
+		 	label: label_set,
+		 	labelLine:labelLine_set,
+		 	series:[{
+		 		name:'Unapplied Cash More Than 180 Days',
+		 		type:"pie",
+		 		radius:'55%',
+		 		roseType: 'angle',
+		 		data:{{chart.ar_month_gt180|safe}},
+		 	},
+		 	],
+		 })
+		var aging_curve = echarts.init(document.getElementById('aging_curve'));
+		var aging_curve_option = {
+			    backgroundColor: '#2A4635',
+			    title: {
+			        text: 'Unapplied Cash Ageing Interactive View',
+			        textStyle: {
+			            fontWeight: 'normal',
+			            fontSize: 16,
+			            color: '#F1F1F3'
+			        },
+			        left: '6%'
+			    },
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            lineStyle: {
+			                color: '#57617B'
+			            }
+			        }
+			    },
+			    legend: {
+			        icon: 'rect',
+			        itemWidth: 14,
+			        itemHeight: 5,
+			        itemGap: 13,
+			        data: {{chart.age_rows|safe}},
+			        right: '4%',
+			        textStyle: {
+			            fontSize: 12,
+			            color: '#F1F1F3'
+			        }
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+			    xAxis: [{
+			        type: 'category',
+			        boundaryGap: false,
+			        axisLine: {
+			            lineStyle: {
+			                color: '#EEE'
+			            }
+			        },
+			        data: {{chart.age_cols|safe}}
+			    }],
+			    yAxis: [{
+			        type: 'value',
+			        name: 'Amount',
+			        axisTick: {
+			            show: false
+			        },
+			        axisLine: {
+			            lineStyle: {
+			                color: '#57617B'
+			            }
+			        },
+			        axisLabel: {
+			            margin: 10,
+			            textStyle: {
+			                fontSize: 14
+			            }
+			        },
+			        splitLine: {
+			            lineStyle: {
+			                color: '#57617B'
+			            }
+			        }
+			    }],
+			    series: [
+			    {% for age_data_k,age_data_v in chart.age_datas.iteritems %}
+			    {
+			        name: '{{age_data_k|safe}}',
+			        type: 'line',
+			        smooth: true,
+			        symbol: 'circle',
+			        symbolSize: 5,
+			        showSymbol: true,
+			        lineStyle: {
+			            normal: {
+			                width: 1
+			            }
+			        },
+			        areaStyle: {
+			            normal: {
+			                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+			                    offset: 0,
+			                    color: 'rgba({{age_data_v.rgb}}, 0.3)'
+			                }, {
+			                    offset: 0.8,
+			                    color: 'rgba({{age_data_v.rgb}}, 0)'
+			                }], false),
+			                shadowColor: 'rgba(0, 0, 0, 0.1)',
+			                shadowBlur: 10
+			            }
+			        },
+			        itemStyle: {
+			            normal: {
+			                color: 'rgb({{age_data_v.rgb}})',
+			                borderColor: 'rgba({{age_data_v.rgb}},0.27)',
+			                borderWidth: 12			
+
+			            }
+			        },
+			        data: {{age_data_v.data|safe}}
+			    },
+			    {% endfor %}
+			    ],
+			    dataZoom: [{
+				        textStyle: {
+				            color: '#8392A5'
+				        },
+				        handleIcon: '{{chart.age_cols|safe}}',
+				        handleSize: '80%',
+				        dataBackground: {
+				            areaStyle: {
+				                color: '#8392A5'
+				            },
+				            lineStyle: {
+				                opacity: 0.8,
+				                color: '#8392A5'
+				            }
+				        },
+				        handleStyle: {
+				            color: '#fff',
+				            shadowBlur: 3,
+				            shadowColor: 'rgba(0, 0, 0, 0.6)',
+				            shadowOffsetX: 2,
+				            shadowOffsetY: 2
+				        }
+				    }, {
+				        type: 'inside'
+				    }],
+			};
+			// for(var i;i<aging_curve_option.series.length;i++)
+			// {
+			// 	aging_curve_option.series[i].areaStyle.color=new echarts.graphic.LinearGradient(0, 0, 0, 1,{
+			// 		offset:0,color:'rgba(137, 189, 27, 0.3)'
+			// 	},{
+			//         offset: 0.8,color: 'rgba(137, 189, 27, 0)'
+			//     }
+			// 		false)
+			// }
+			aging_curve.setOption(aging_curve_option)
+		var month={{month}};
+		var year={{year}};
+		if(month==12)
+		{
+			var next_month=1;
+			var next_year=year+1;
+		}
+		else
+		{
+			var next_year=year;
+			var next_month=month+1;
+		}
+		if(month==1)
+		{
+			var last_month=12;
+			var last_year=year-1;
+		}
+		else
+		{
+			var last_year=year;
+			var last_month=month-1;
+		}
+		$("#previous_btn_a").attr("href","/arreport?md=ucmonth&year="+last_year+"&month="+last_month)
+		$("#next_btn_a").attr("href","/arreport?md=ucmonth&year="+next_year+"&month="+next_month)
+		$("#otherside_btn_a").attr("href","/arreport?md=armonth&year="+year+"&month="+month)
+		$("#recalc_btn_a").attr("href","/arreport?recalc=1&md=ucmonth&year="+year+"&month="+month)
+	})
+</script>
+<style type="text/css">
+
+</style>
+</html>

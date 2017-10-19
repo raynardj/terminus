@@ -1,0 +1,12 @@
+<table>
+{% for k,v in dict.iteritems %}
+<tr>
+<th>
+{{k|safe}}
+</th>
+<td>
+{{v|safe}}
+</td>
+</tr>
+{% endfor %}
+</table>

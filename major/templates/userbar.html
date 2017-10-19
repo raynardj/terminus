@@ -1,0 +1,185 @@
+<div id='userbar'>
+<div class='link_wordl'><a class='hlink' href="/">主页</a></div>
+<div class='link_wordl'><a class='hlink' href="/termap">开始干活</a></div>
+<div class='link_wordl'>
+	<div id='namesearch_input'><input id='namesearch' type='text' placeholder='搜索您的同事'></div>
+	<div id='namesearch_drop'></div>
+</div>
+<img src='/static/img/terii.png' id='pagelogo' title='Terminus Mark II 一个简化流程的SNS'></img>
+<div class='link_word userb_menu_btn' data-menuid="userb_personal_menu"><a class='hlink' style='color:#fff;'>个人</a>
+<div class='userb_dropdown_menu' id='userb_personal_menu'>
+<div class='userb_menu_item'><a class='hlink' href="/privatemsg" ><div class='menulink'>私信</div></a></div>	
+<div class='userb_menu_item'><a class='hlink' href="/userinfo"><div class='menulink'>用户设置</div></a></div>
+<div class='userb_menu_item'><a class='hlink' title='切换用户' href="/login?logout=1" ><div class='menulink'>退出</div></a></div>	
+</div>
+</div>
+<div class='link_word'><a class='hlink' href="/help" target='_blank' title='查看帮助，了解如何使用TM2系统'>Help</a></div>
+</div>
+	<div id='ubpadding'>
+</div>
+<script type='text/javascript'>
+$(document).ready(function()
+{
+$(".userb_menu_btn").click(function(){
+	var menuid=$(this).data("menuid")
+	$("#"+menuid).toggle(300)
+})
+$(".userb_menu_item").hover(function(){$(this).css("background-color","#3171A3")})
+$(".userb_menu_item").mouseleave(function(){$(this).css("background-color","#1D4A80")})
+$(".userb_menu_item").blur(function(){
+	setTimeout(function(){
+	$(this).parents(".userb_dropdown_menu").toggle(300)
+	},300)
+})
+
+$("#namesearch").blur(function(){
+	setTimeout(function(){$("#namesearch_drop").html('')},300)
+})
+
+$("#namesearch").keyup(function(){
+	var nsv=$(this).val()//name search input value, the keyword
+	if(nsv=='')
+	{
+			$("#namesearch_drop").html('')
+	}
+	else
+	{
+	var ajdata={}
+	ajdata.kw=nsv
+	ajdata.task="topersonpage"
+	$.ajax({
+		url:'search_suggest',
+		async:true,
+		method:"GET",
+		data:ajdata,
+		success:function(data)
+		{
+			$("#namesearch_drop").html(data)
+		}
+	})
+	}
+})
+})
+</script>
+<style>
+#userbar
+{
+	border:1px solid #777;
+	border-width:0px 0px 0px 0px;
+	width:100%;
+	height:50px;
+	font-family:微软雅黑,Tahoma,Arial;
+	position: fixed;
+	background-color:#1D4A80;
+	color:#fff;
+	z-index:990;
+	font-weight: 300;
+}
+#namesearch_input
+{
+	display:inline-block;
+}
+.hlink:link
+{
+	color:#fff;
+	text-decoration:none;
+}
+.hlink:visited
+{
+	color:#fff;
+	text-decoration:none;
+}
+#namesearch_drop
+{
+	background-color: #fff;
+	color:#777;
+	font-size:15;
+}
+.link_word
+{
+	color:#fff;
+	text-decoration:none;
+	display:inline-block;
+	float:right;
+	font-size:15px;
+	margin:25px 10px 5px 10px;
+}
+
+.link_wordl
+{
+	color:#fff;
+	text-decoration:none;
+	display:inline-block;
+	float:left;
+	font-size:15px;
+	margin:23px 10px 5px 10px;
+}
+#ubpadding
+{
+	width:100%;
+	height:55px;
+	background-color: #B0C4DE;
+	margin:0px 0px 20px 0px;
+}
+#pagelogo
+{
+	width:320px;
+	position:fixed;
+	margin:15px auto;
+	right:280px;
+}
+#namesearch
+{
+	padding:0px 10px;
+	border:0px solid #1D4A80;
+	border-radius:5px;
+	color:#1D4A80;
+	font-family:微软雅黑,Tahoma,Arial;		
+	width:300px;
+	background-color:#fff;
+	font-size:15px;
+}
+#namesearch_drop a:link,#namesearch_drop a:visited
+{
+	color:#999;
+	text-decoration: none;
+}
+#namesearch_drop
+{
+	border:0px solid #1D4A80;
+	text-align: center;
+}
+.ns_cnname
+{
+	color:#1D4A80;
+}
+.name_search_suggest_line
+{
+	height:30px;
+}
+.userb_menu_item
+{
+	background-color: #1D4A80;	
+	margin:3px auto;
+	border-radius:3px;
+	padding:3px;
+}
+.userb_dropdown_menu
+{
+	width:150px;
+	right:20px;
+	position:absolute;
+	font-size:15px;
+	box-shadow: 0px 0px 5px #fff;
+	display:none;
+}
+.userb_menu_btn
+{
+	width:80px;
+	overflow-x:visible;
+}
+.menulink
+{
+	width:140px;
+}
+</style>

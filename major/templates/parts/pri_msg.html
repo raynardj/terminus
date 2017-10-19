@@ -1,0 +1,59 @@
+<style type='text/css'>
+.pri_line
+{
+	background-color:#eee;
+	width:700px;
+	margin:20px auto;
+	padding:20px;
+	border-radius:5px;
+	text-align: left;
+}
+.pri_name
+{
+	display:inline-block;
+}
+.pri_name_link:link,.pri_name_link:visited
+{
+	color:#4682B4;
+	text-decoration: none;
+}
+.pri_chat_tm
+{
+	float:right;
+	color:#ccc;
+	display: inline-block;
+	margin:auto 5px auto 100px;
+}
+.pri_chat_writes
+{
+	font-size:20px;
+	margin:20px auto;
+}
+</style>
+<div id='private_msg_box'>
+
+</div>
+<script type='text/javascript'>
+function load_pri_chat(usermail)
+{
+	var skips=$("#private_msg_box").data("skips")
+	var inputaj={}
+	inputaj.md="pmbload"
+	inputaj.limit=20
+	inputaj.skips=parseInt(skips)
+	inputaj.usermail=usermail
+	$.ajax({
+		url:'/privatemsg_aj',
+		method:'GET',
+		data:inputaj,
+		async:true,
+		success:function(data){
+			$("#private_msg_box").append(data)
+		}
+	})
+}
+$(document).ready(function(){
+	$("#private_msg_box").data("skips",0)
+	load_pri_chat("{{usermail}}")
+})
+</script>

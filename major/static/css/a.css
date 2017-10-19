@@ -1,0 +1,48 @@
+body
+{
+  text-align:center;
+  background-color:#FFF;
+  color:#000;
+  font-family:微软雅黑,Tahoma,Arial;
+  padding:0px;
+  margin:0px;
+}
+.process_log_frame
+{
+	margin:5px auto;
+	padding: 5px 20px;
+	width:850px;
+	min-height:80px;process
+	border:1px solid #09c;
+	border-width:0px 0px 0px 20px;
+	text-align:left;
+	background-color:hsla(0,1%,40%,0.1);
+}
+.process_log_date
+{
+	margin:auto 5px auto 600px;
+}
+.process_log_cnname
+{
+	color:#09c;
+	font-weight:700;
+}
+.process_log_time
+{
+	margin:auto 5px auto auto;
+	color:#999;
+}
+.process_log_decision
+{
+	font-size:20px;
+	font-weight:700px; 
+}
+.input_box_smooth
+{
+	padding:5px;
+	border:2px solid #09c;
+	border-radius:5px;
+	margin:5px auto 15px 5px;
+	background-color: hsla(0,50%,50%,0);
+ 	font-family:微软雅黑,Tahoma,Arial;
+}

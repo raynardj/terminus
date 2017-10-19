@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	body
+	{
+		padding: 0px;
+		margin: 0px;
+ 		font-family:微软雅黑,Tahoma,Arial;
+ 		background-color: #FFF;
+	}
+	#page_body
+	{
+		padding:20px 90px;
+	}
+	#client_info_table th
+	{
+		background-color:#4682B4;
+		color:#FFF;
+		font-weight: 300;
+		width:450px;
+		font-size:20px;
+	}
+	#client_info_table td
+	{
+		font-weight: 100;
+		padding:5px;
+		font-size:18px;
+	}
+	#company_name
+	{
+		font-weight:200;
+		font-size:60px;
+	}
+</style>
+	<title>客户信息浏览-[{{arclient.cid}}]-Terminus Mark II</title>
+</head>
+<body>
+{{userb}}
+<div id="page_body">
+	<h3 id="company_name">
+		{% for cname in arclient.cnm %}
+		{{cname}}<br>
+		{% endfor %}
+	</h3>
+	<div id="left_sec">
+		<div id='client_info_tag'>
+		<table id="client_info_table">
+		{% if arclient.term %}
+		<tr><th>账期</th></tr>
+		<tr><td>	{% for term in arclient.term %}
+				{{term}}<br>
+				{% endfor %}</td></tr>
+		{% endif %}
+		{% if arclient.city %}
+		<tr><th>地区</th></tr>
+		<tr><td>	{% for city in arclient.city %}
+				{{city}}<br>
+				{% endfor %}</td></tr>
+		{% endif %}
+		{% if arclient.city %}
+		<tr><th>发票抬头</th></tr>
+		<tr><td>	{% for itt in arclient.itt %}
+				{{itt}}<br>
+				{% endfor %}</td></tr>
+		{% endif %}
+		{% if arclient.ctyp %}
+		<tr><th>客户类型</th></tr>
+		<tr><td>	{% for ctyp in arclient.ctyp %}
+				{{ctyp}}<br>
+				{% endfor %}</td></tr>
+		{% endif %}
+		</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

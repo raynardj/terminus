@@ -1,0 +1,73 @@
+{% load static %}
+
+<form action='/officeuse' method='post'>
+<!-- <div class='auto_grab_showhide' title='自动抓取官网产品信息'> 
+隐藏/显示自动抓取
+</div> -->
+
+<div class='grab_url_input'>
+<div style='display:inline-block;'>
+{% if backmsg %}<div id='oubacamsg'>{{ backmsg }}</div>{% endif %}
+<details  style='color:#aaa'>
+<summary style='color:#aaa'><div style='color:#aaa;display: inline-block;'>行政领用可以不用领导批准？</div></summary>
+<br>
+自动获取 + 公司自有品牌 + 低于100元人民币 = 不用批准
+<br>
+</details>
+{{urlform.as_table}} </div>
+<div class='try_grab' style='display:inline-block;'>获取</div>
+</div>
+<div id="aj_test001"></div>
+<div id='aj_status' style='color:#ff0000;'></div>
+{% csrf_token %}
+
+	<div id='officeuse_pic_div' style='display:inline-block;'>
+	<img style='max-width:150px;max-height:150px;' id='officeuse_pic'></img>
+	</div>
+	<div id='aj_url' class='body_item'  style='display:inline-block;'>
+	<table>
+	{{empety_form.as_table}}
+	</table>
+
+	</div>
+	
+	<div>
+	<input class='id_submitbtn' value='OK' type='submit' name='ou_sub'></input>
+	</div>
+	<div id='fill_help'>
+	<p id='ex_stburl' class='fill_help_p'>贴入公司官方网站的产品页面链接,点击[获取]<br><img src='/static/img/ou_guide1.jpg' alt='如www.staples.cn/product/1100016424S01'/></p>
+	</div>
+</form>
+<div class='side_slide_frame' style='float:right;position:absolute;right:0px;top:100px;'>
+	<img class='notice_slide_btn' src='{% static "img/notice_slide_btn.png" %}' style='width:200px;opacity:0.5;'></img>
+	<div class='notice_slide_detail' style='width:190px;display:none;background-color:hsla(0,50%,100%,0.6);border-radius: 5px;box-shadow: 0px 0px 7px #4682B4;padding:20px 5px;'>
+		<div style='color:#4682B4; font-size:16px;'>
+		支持我们<span style="font-size:23px;">自己的产品</span>
+		<br>
+		请<span style="font-size:23px;"">尽量</span>选择自有品牌
+		<br>
+		<table style='color:#4682B4;width:189px;'>
+		<tr>
+		<td style='font-size:28px;font-weight:900;text-align: left;'>
+		史泰博
+		</td>
+		</tr>
+		<tr>
+		<td style='font-size:23px;font-weight:900;text-align: center;'>
+		博明
+		</td>
+		</tr>
+		<tr>
+		<td style='font-size:25px;font-weight:900;text-align: right;'>
+		ARC
+		</td>
+		</tr>
+		</table>
+		<br>
+		这些
+		<br>
+		让我们骄傲的名字
+		<br>
+		</div>
+	</div>
+</div>

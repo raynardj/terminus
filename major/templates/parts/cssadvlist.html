@@ -1,0 +1,100 @@
+{% load static %}
+<script type='text/javascript' src='{%static "js/jquery.js"%}'></script>
+<script type='text/javascript' src='{%static "js/bootstrap.js"%}'></script>
+
+<style type='text/css'>
+@import url('{%static "css/bootstrap.css"%}');
+@import url('{%static "css/bootstrap_theme.css"%}');
+
+#rangeframe
+{
+	width:200px;
+	margin:auto;
+}
+#view_ca_records
+{
+	padding:5px 10px;
+	border: 0px solid #FFF;
+	border-radius: 3px;
+}
+.ca_table
+{
+	margin:50px auto;
+}
+.ca_table th
+{
+	color:#FFF;
+	background-color: #4682B4;
+}
+.ca_table td
+{
+	padding:5px 10px;
+}
+.ca_flip
+{
+	background-color:#4682B4;
+	color:#FFF;
+	border:0px solid #FFF;
+	border-radius:5px;
+	padding:5px;
+	width:30px;
+}
+</style>
+<title>upload list</title>
+<body>
+{{userb}}
+{{range_form.media}}
+<h2>查阅记录</h2>
+<div id='rangeframe'>
+{% for field in range_form.visible_fields %}
+            <div id="div_{{ field.html_name }}"
+                 class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-muted pull-right">
+                    <small>{{ field.help_text }}</small>
+                </div>
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+{% endfor %}
+<button id='view_ca_records'>Search</button>
+</div>
+<div id='data_feedback'></div>
+</body>
+<script type="text/javascript">
+function read_cb(cbname)
+{
+	// Get the selected radio button
+	var rt=[]
+	var cbobj=document.getElementsByName(cbname)
+	for(var i=0;i<cbobj.length;i++)
+	{
+		if(cbobj[i].checked)
+		{
+			rt.push($(cbobj[i]).val())
+		}
+	}
+	// var rts=rt.join(",")
+	return rt
+}
+$(document).ready(function(){
+	$("#view_ca_records").click(function(){
+		var aj_data={}
+		aj_data.datestart=$("#id_datestart").val()
+		aj_data.dateend=$("#id_dateend").val()
+		aj_data.csstask=$("#id_csstask").find("option:selected").val()
+		aj_data.status=$("#id_status").find("option:selected").val()
+		$.ajax({
+			url:"/cssadvlist_aj",
+			method:"GET",
+			async:true,
+			data:aj_data,
+			success:function(data){
+				$("#data_feedback").html(data)
+			}
+		})
+	})
+})
+</script>

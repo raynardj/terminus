@@ -1,0 +1,18 @@
+<table>
+	<tr>
+	<td>{{form.as_p}}</td>
+		<td>
+			总共 <strong> {{ttl}}</strong> 条记录, 
+			<strong>{{page_limit}}</strong> 条记录/页
+		</td>
+	</tr>
+</table>
+{{extra}}
+<script type='text/javascript'>
+$(document).ready(function(){
+$("#id_page").change(function(){
+	aj_id_load_data()
+})
+})
+
+</script>

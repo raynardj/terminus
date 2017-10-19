@@ -1,0 +1,55 @@
+<tr class='mgrow'>
+<td>{{ processcn }}</td>
+<td><a href='/?mail={{applier_email}}'>{{ name }}</td>
+
+</td>
+<td>
+<div id='{{ id }}_preview' class='row_preview' data-processid='{{ id }}' data-process='{{ process }}' style='color:#09c;'> 
+详情
+</div>
+</td>
+
+<td>{{ time }}</td>
+<td id='{{ id }}_statustd' class='
+{% if status == "申请失败" %}
+tshadow_red
+{% elif status == "审批成功" %}
+tshadow_blue
+{% elif status == "申请人修改" %}
+tshadow_yellow
+{% elif status == "审批中" %}
+tshadow_green
+{% endif %}
+'>{{ status }} </td>
+{% if ican == 'yes' %}
+<!-- Decision: Agree,Refill,Deny -->
+<td id='{{ id }}_actiontd'>
+	<div class="yes_btn tablebook_aj_btn" style="display:inline-block;" data-processid='{{ id }}' data-decision='accept' data-type='process_approve'>同意</div>
+	<div class="re_btn tablebook_aj_btn" style="display:inline-block;background-color:#008080;" data-processid='{{ id }}' data-maddr='{{applier_email}}' data-decision='refill'  data-type='process_approve' title='驳回前备注一下,告诉填表人应该怎么修改'>驳回修改</div>
+	<div class="deny_btn tablebook_aj_btn" style="display:inline-block;background-color:#A52A2A;" data-processid='{{ id }}' data-decision='deny' data-type='process_approve'>不同意</div>
+	<div class='tablebook_remark_btn' data-processid='{{ id }}' style="display:inline-block;color:#09c;">备注一下
+	</div>
+</td>
+{% else %}
+<td> - </td>
+{% endif %}
+<td id='{{ id }}_ajreturn' style='max-width:270px;word-break:break-all;overflow:hidden;white-space:nowrap;'' title='{{review_brief}}'><div>{{review_brief|safe}}</div></td>
+<td class='fortest'>{{ all_dict }}</td>
+</tr>
+
+{% if ican == 'yes' %}
+<tr id='{{ id }}_remark_row' data-processid='{{ id }}' style="display:none;">
+<td colspan=6>
+给 {{name}} 备注一下:<input style='width:400px' class='input_box_smooth' type='text' id='{{ id }}_remark_input' placeholder='可以告诉申请人您审批决策的原因'></input>
+</td>
+<td>
+<div class='tablebook_remark_hide' data-processid='{{ id }}'>隐藏</div>
+</td>
+</tr>
+{% endif %}
+<tr class='detailrow' style="display:none;" id='{{ id }}_detailrow' >
+<td colspan="9">
+<div class='detail_hide_btn' data-processid='{{ id }}'>隐藏</div>
+<div class='process_detail_box' id='{{ id }}_process_detail_aj'></div>
+</td>
+</tr>

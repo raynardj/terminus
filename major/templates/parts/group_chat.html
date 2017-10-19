@@ -1,0 +1,143 @@
+<style type='text/css'>
+#group_chat_title
+{
+	height:30px;
+}
+.group_aj_title
+{
+	color:#4682B4;
+	font-size:20px;
+}
+#gchat_frame
+{
+	text-align: center;
+}
+#chat_ctt_area
+{
+	height:480px;
+	width:580px;
+	background-color: #f5f5f5;
+	margin:auto;
+	border:1px solid #4682B4;
+	border-radius:5px;
+	box-shadow: 0px 0px 5px #396c9a inset;
+	overflow-y:auto;
+}
+#gchat_input_frame
+{
+	margin: 10px auto;
+}
+#gchat_input
+{
+	width:580px;
+	padding:8px;
+	border:1px solid #4682B4;
+	border-radius:5px;
+	font-family:微软雅黑,Tahoma,Arial;
+}
+.gchat_block
+{
+	margin:auto 15px;
+}
+.gchat_line
+{
+	text-align:left;
+	margin:10px auto;
+}
+.self_mark
+{
+	text-align:right;
+}
+.gchat_title_cnname
+{
+	display:inline-block;
+	color:#4682B4;
+}
+.gchat_title_time
+{
+	display:inline-block;
+	color:#999;
+}
+.gchat_line_chat
+{
+	background-color:#4682B4;
+	padding:3px 10px;
+	color:#fff;
+	max-width:400px;
+	min-width:20px;
+	min-height:20px;
+	width:-webkit-fit-content;
+	width:-moz-fit-content;
+	width:fit-content;
+	word-wrap:break-word;
+	margin:auto auto auto 0px;
+	border-radius:4px;
+	box-shadow: 0px 0px 3px #bbb;
+	text-align: left;
+}
+.self_mark_line
+{
+	background-color: #bbb;
+	box-shadow: 0px 0px 0px #333;
+	border:1px solid #bbb;
+	border-radius:4px;
+	color:#000;
+	margin:auto 0px auto auto;
+}
+#history20
+{
+	font-size:15px;
+	margin:auto auto auto 100px;
+}
+</style>
+<div id='gchat_frame'>
+	<div id='group_chat_title'>
+	<div class='group_aj_title'>{{group_cnname}} 团队聊<span id='history20'>+20条历史记录</span></div>
+	</div>
+	<div id='chat_ctt_area' data-init='{{initial_time}}' data-forwardcount='0' data-backtime='{{initial_time}}' data-skiploaded='0'>
+	</div>
+	<div id='gchat_input_frame'>
+		<input id='gchat_input' data-gchatowner='{{groupname}}' type='text' placeholder="输入聊天内容,Enter发送"></input>
+	</div>
+</div>
+<script type="css/javascript">
+
+$(document).ready(function(){
+	$("#chat_ctt_area").data("sincetime",$('#chat_ctt_area').data("init"))
+	gchat_backward("{{ groupname }}",'{{initial_time}}',false)
+	setTimeout(function(){c_s_b();},500)
+	//Activate the syncronization only when the window is active
+	window.onfocus=function(){
+			if($("#chat_ctt_area").html())
+			{
+				gchat_forward("{{groupname}}")
+				chatinterval=setInterval(function(){
+				gchat_forward("{{groupname}}")
+				},6000)
+				window.onblur=function(){
+				stoprefresh()
+				}	
+			}
+		}
+$('#gchat_input').bind('keyup', function(event) {
+		if (event.keyCode == "13") {
+			// Press Enter
+//			alert($("#chat_ctt_area").data("sincetime"))
+			if($(this).val()!="")
+			{
+			gchat('{{ groupname }}',$(this).val())
+			$(this).val("")
+			setTimeout(function(){gchat_forward("{{groupname}}");setTimeout(function(){c_s_b()},200)},200)
+			}
+		}
+	})
+$("#history20").click(function(){
+	var initialt2=$("#chat_ctt_area").data("backtime")
+	var skippages=parseInt($("#chat_ctt_area").data("skiploaded"))+1
+	$("#chat_ctt_area").data("skiploaded",skippages)
+	gchat_backward("{{ groupname }}",initialt2,false,skippages)
+	c_s_u()
+})
+});
+
+</script>

@@ -1,0 +1,75 @@
+{% load static %}
+<script type='text/javascript' src='{%static "js/js/jquery.js"%}'></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css" >
+@import url('{%static "css/css/login.css"%}');
+
+.login_head_banner
+{
+    background-color: hsla(0,50%,50%,0);
+}
+#id_email,#id_password
+{
+    background-color: hsla(0,50%,50%,0);
+    color:#fff;
+    border:1px solid hsla(180,50%,99%,0.2);
+    border-width:1px 0px;
+    padding:10px 30px;
+    border-radius:0px;
+    box-shadow: 0px 0px 0px #fff;
+    margin:15px 15px;
+    width:260px;
+}
+.link_a:link
+{
+    color:#eee;
+    text-decoration:none;
+    width:100px;
+}
+.link_a:visited
+{
+    color:#eee;
+    text-decoration:none;
+    width:100px;
+}
+.link_div
+{
+    display:inline-block;
+    color:#eee;
+    text-decoration:none;
+    text-align:center;
+    background-color:hsla(0,50%,50%,0);
+    height:24px;
+    padding:5px;
+    width:145px;
+    border:1px solid hsla(180,50%,99%,0);
+    border-width: 0px 0px 1px 0px;
+    border-radius:5px;
+    margin:10px auto;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>初始化您的密码</title>
+</head>
+<body style='color:#fff;'>
+<div class='main_bg_pic'><img class='bg_pic_img' src='{%static "img/pic/login.jpg"%}' ></img></div>
+	<p ><h1 class='login_head_banner'>重设密码</h1></p>
+    <form method="POST" action="/reset">
+    <table>
+    		{% csrf_token %}
+        	{{ form.as_table }}
+            {% if ra %}
+            <input name='ra' value='{{ ra }}' type=hidden></input>
+            {% endif %}
+    </table>
+    		<input id='subm_btn' type='submit' value='重设密码'></input>
+    </form>
+    <div>{{ msg_return }}<div>
+    <br><br><br>
+    <div class='link_div'><a class='link_a' href='/login'>登录</a></div>
+    <div class='link_div'><a class='link_a' href='/register'>注册</a></div>
+    {{ extra }}
+</body>
+<script type='text/javascript' src='{%static "js/js/login.js"%}'></script>
+</html>

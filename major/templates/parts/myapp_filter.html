@@ -1,0 +1,27 @@
+<div>
+筛选记录
+<br>
+申请类型<select id='appli_fil_process'>
+<option value='allprocess'>全部</option>
+<option value='officeuse'>行政领用</option>
+<option value='auth'>权限审批</option>
+</select>
+<div class='mgtable_filter'>筛选</div>
+</div>
+<script type='text/javascript'>
+$(document).ready(function(){
+	$(".mgtable_filter").click(function(){
+		var applierkw=$('#myapp_fil_applier').val()
+		var tasktype=$(':selected').val()
+		if(tasktype!="allprocess")
+		{
+			if (tasktype!="allprocess")
+			{
+			var extra_condi="{'process':'"+tasktype+"'}"
+			aj_id_load_flipper(extra_condi)
+			aj_id_load_data(extra_condi)
+			}
+		}
+	})
+})
+</script>

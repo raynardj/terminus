@@ -1,0 +1,13 @@
+<div class='gchat_line {{ self_mark }}'>
+	<div class='gchat_line_title' id='{{ id }}' data-from='{{ from }}'>
+		<div class='gchat_title_cnname'>
+		<a class='speaker_a' href='/?mail={{from}}' target='_blank'>{{ fromcn }}</a>
+		</div>
+		<div class='gchat_title_time'>
+		{{ time }}
+		</div>
+	</div>
+	<div class='gchat_line_chat {% if self_mark %}{{self_mark}}_line{% endif %}'>
+	{{ chat }}
+	</div>
+</div>

@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+	body
+	{
+	  text-align:left;
+	  background-color:#FFF;
+	  color:#000;
+	  font-family:微软雅黑,Tahoma,Arial;
+	}
+	p
+	{
+	  background-color:#09C;
+	  color:#FFF;
+	}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<body>
+<p>
+<h1>请确认以下链接</h1>
+</p>
+<div>
+如果您在{{sitename}}上有操作过账号设置，请点击以下链接确认(<strong>不要用IE</strong>)：
+<br>
+{{ urlb }}
+<br>
+该链接15分钟内有效
+
+<br>
+抵制落后的浏览器! 把IE还给博物馆，最好使用Firefox,Safari,搜狗 或者Chrome浏览器
+该邮件为自动发送，请勿回复。
+{% if siteadmin %}
+有问题可以联系:
+{{siteadmin}}
+{% endif %}
+</div>
+</body>
+</html>

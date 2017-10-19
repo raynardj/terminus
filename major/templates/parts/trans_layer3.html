@@ -1,0 +1,18 @@
+<div>
+<div class='user_line_item' >中文名<span class='userttl_amount'>金额</span></div>
+{% for user in users %}
+<div class='user_line_item trans_userlink' data-mail={{user.mail}} data-layer='3'>
+{{user.cnname}} 
+<span class='userttl_amount'>{{user.ttlamt}}</span>
+</div>
+{% endfor %}
+</div>
+<script type='text/javascript'>
+
+$(document).ready(
+	function(){
+	$(".trans_userlink").click(function(){
+		clickuser_item(this)
+	})
+	})
+</script>

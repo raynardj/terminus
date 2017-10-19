@@ -1,0 +1,13 @@
+<div>
+<form method='POST' action='{{form_action}}'>
+<table>
+<tr><td><h3>Sheet 名称</h3></td><td><h3>{{sheet_name}}</h3></td><tr>
+<tr><td>行数</td><td>{{sheet_nrows}}</td><tr>
+<tr><td>列数</td><td>{{sheet_ncols}}</td><tr>
+<tr><td>预览</td><td>{{sheet_preview|safe}}</td><tr>
+<tr><td>设置</td><td>{{sheet_fields|safe}}</td><tr>
+</table>
+<input type='submit' value='Upload'></input>
+</form>
+</div>
+<hr class='sep_dashed'>

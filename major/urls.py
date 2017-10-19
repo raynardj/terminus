@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+from django.conf.urls import url
+from . import views
+urlpatterns=[
+	url(r'^$',views.index,name="index"),
+	url(r'^index_aj$',views.index_aj,name="index_aj"),
+	url(r'^login$',views.login,name="login"),# Administration Pages
+	url(r'^register$',views.register,name="register"),# Administration Pages
+	url(r'^reset$',views.reset,name="reset"),# Administration Pages
+	url(r'^rabbithole$',views.after_reg,name="after_reg"),# Administration Pages
+	url(r'^userinfo$',views.userinfo,name="userinfo"),# Administration Pages
+	url(r'^upload$',views.upload,name='upload'),
+	url(r'^download$',views.download,name='download'),
+	url(r'^download_aj$',views.download_aj,name='download_aj'),
+	url(r'^clients/(?P<cid>[0-9]{10})$',views.clients,name="clientpage"),
+	url(r'^group$',views.group,name="group"),
+	url(r'^transparent$',views.transparent,name="transparent"),
+	url(r'^transparent_aj$',views.transparent_aj,name="transparent_aj"),
+	url(r'^groupinfo$',views.groupinfo,name="groupinfo"),
+	url(r'^group_aj$',views.group_aj,name="group_aj"),
+	url(r'^gchat_aj$',views.gchat_aj,name="gchat_aj"),
+	url(r'^help$',views.help,name="help"),
+	url(r'^termap$',views.termap,name="termap"),
+	url(r'^officeuse$',views.officeuse,name='officeuse'),
+	url(r'^ajaxofficeuse$',views.ajax_officeuse,name='ajax_officeuse'),
+	url(r'^tablebook_aj$',views.tablebook_aj,name='tablebook_aj'),
+	url(r'^worldsync$',views.worldsync,name="worldsync"),
+	url(r'^reg$',views.reg,name="registration"),
+	url(r'^test$',views.testview,name="testview"),
+	url(r'^authportal/(?P<job>[a-z]{9})$',views.authportal,name="authportal"),
+	url(r'^authset$',views.authset,name="authset"),
+	url(r'^authassign$',views.authassign,name="authassign"),
+	url(r'^process$',views.process,name="process"),
+	url(r'^sys$',views.sys,name="sys"),
+	url(r'^search_suggest$',views.search_suggest,name="search_suggest"),
+	url(r'^privatemsg$',views.private_msg,name="private_msg"),
+	url(r'^privatemsg_aj$',views.privatemsg_aj,name="private_msg_aj"),
+	url(r'^userlist$',views.userlist,name="userlist"),
+	url(r'^crontab$',views.crontab,name="crontab"),
+	url(r'^cssadvlist$',views.cssadvlist,name="cssadvlist"),
+	url(r'^cssadvlist_aj$',views.cssadvlist_aj,name="cssadvlist_aj"),
+	url(r'^cssadvupload$',views.cssadvupload,name="cssadvupload"),
+	url(r'^cssadvjs$',views.cssadvjs,name="cssadvjs"),
+	url(r'^cadetail$',views.cadetail,name="cadetail"),
+	url(r'^color$',views.color_dial,name="color"),
+	url(r'^cajs$',views.cajs,name="cajs"),
+	url(r'^arupload$',views.arupload,name="arupload"),
+	url(r'^viewclient$',views.viewclient,name="viewclient"),
+	url(r'^arreport$',views.arreport,name="arreport"),
+	url(r'^arreport_aj$',views.arreport_aj,name="arreport_aj"),
+	url(r'^button$',views.button,name="button"),
+	url(r'^sqlupdate$',views.sqlupdate,name="sqlupdate"),
+]
