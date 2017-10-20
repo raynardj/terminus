@@ -2927,7 +2927,7 @@ def sqlupdate(request):
 							od=pd.merge(od,inv2cnt,on=u"手工发票号",how="inner")
 							od.index.name="id"
 							# connect to the database
-							engine=ce("mysql+pymysql://ray:46ym46ydq8@10.10.5.101/exceldata?charset=utf8")
+							engine=ce("mysql+pymysql://ray:passwordxxx@10.10.5.101/exceldata?charset=utf8")
 							conn=engine.connect()
 							date_format=sqlalchemy.types.String(length=20)
 							dtype_dict=dict({
