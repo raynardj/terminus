@@ -7,7 +7,7 @@ database on sqlite,mongodb,mysql
 
 ## 安装
 
-使用普通用户权限（root）， 不适用root
+使用普通用户权限（salvor）， 不适用root
 
 ````
 cd ~/djs
