@@ -2,10 +2,15 @@
 Terminus Internal Smart App
 
 Run on python 2.7
+
 Based on django framework
+
 database on sqlite,mongodb,mysql
+
 server using httpd
+
 system, centos
+
 Intranet domain ter.staples.cn
 
 ## 安装
